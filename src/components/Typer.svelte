@@ -2,12 +2,13 @@
 	import { createEventDispatcher } from 'svelte';
 	export let competitionTime: number;
 	export let targetText: string;
-
+	export let allowSpace = false;
 	const dispatch = createEventDispatcher();
 	const newSpace = '\u0131'; // dotless i
 	const newEnter = '\u02BC'; // modifier apostrophe
 	const newTab = '\u03BC'; // Greek mu
 	let yetToStart = true;
+
 	let displayText = targetText
 		.replace(/ /g, newSpace)
 		.replace(/\n/g, newEnter)
@@ -52,6 +53,8 @@
 
 	let userInput = '';
 	let userInpArray: string[] = [];
+	let forbiddenArr = allowSpace ? [newEnter, newTab] : [newSpace, newEnter, newTab];
+
 	function updateData() {
 		if (yetToStart) {
 			runAfter(updateScore);
@@ -59,9 +62,9 @@
 			yetToStart = false;
 		}
 
-		userInput = userInput.replaceAll(' ', '');
+		userInput = userInput.replaceAll(' ', allowSpace ? newSpace : '');
 		//userInpArray = userInput.split('');
-		while ([newSpace, newEnter, newTab].includes(displayText[userInput.length])) {
+		while (forbiddenArr.includes(displayText[userInput.length])) {
 			//userInpArray.push(displayText[userInput.length]);
 			userInput += displayText[userInput.length];
 		}
@@ -73,7 +76,6 @@
 	function focusInput() {
 		inputRef?.focus();
 	}
-
 	function findAllOccurrences(str: string, char: string) {
 		return [...str].map((c, i) => (c === char ? i : -1)).filter((i) => i !== -1);
 	}

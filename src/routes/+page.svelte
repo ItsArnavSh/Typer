@@ -13,6 +13,7 @@
 	let competitionTime: number = 5;
 	let githubFileUrl = '';
 	let targetText = '';
+	let allowSpace = false;
 	let formSubmitted = false;
 
 	function timerr() {
@@ -55,26 +56,40 @@
 
 	<!-- Initial Form -->
 	{#if !formSubmitted}
-		<div class="mt-10 w-[60%]">
-			<div class="terminal-text prompt mb-4 flex flex-row">
-				<label>Competition Time (seconds):</label>
+		<div class="mt-10 flex w-[60%] flex-col space-y-6">
+			<!-- Competition Time -->
+			<div class="terminal-text prompt flex flex-col">
+				<label class="mb-2">Competition Time (seconds):</label>
 				<input
 					type="number"
 					bind:value={competitionTime}
 					min="1"
-					class="terminal-text response rounded border-0 bg-black p-2"
+					class="terminal-text response rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
 				/>
 			</div>
-			<div class="terminal-text prompt mb-4 flex w-full flex-row">
-				<label>GitHub File URL:</label>
+
+			<!-- GitHub File URL -->
+			<div class="terminal-text prompt flex flex-row">
+				<label class="mb-2">GitHub File URL:</label>
 				<input
 					type="text"
 					bind:value={githubFileUrl}
 					placeholder="https://github.com/..."
-					class="terminal-text response w-max rounded bg-black p-2"
+					class="terminal-text response w-full rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
 				/>
 			</div>
-			<button class="rounded bg-white px-4 py-2 text-black" onclick={handleSubmit}>
+
+			<!-- Allow Space Checkbox -->
+			<div class="terminal-text prompt flex items-center space-x-2">
+				<input type="checkbox" bind:checked={allowSpace} id="allowSpace" class="accent-green-500" />
+				<label for="allowSpace">Allow Space</label>
+			</div>
+
+			<!-- Start Button -->
+			<button
+				class="terminal-text rounded border border-green-400 bg-black px-6 py-2 text-green-400 transition duration-200 hover:bg-green-600 hover:text-black"
+				onclick={handleSubmit}
+			>
 				Start Challenge
 			</button>
 		</div>
@@ -85,7 +100,13 @@
 				{#if times}
 					<Wpm {wpmData} />
 				{:else}
-					<Typer {targetText} {competitionTime} on:timesUp={timesUp} on:activateTimer={timerr} />
+					<Typer
+						{allowSpace}
+						{targetText}
+						{competitionTime}
+						on:timesUp={timesUp}
+						on:activateTimer={timerr}
+					/>
 				{/if}
 			{:else}
 				<p class="text-white">Loading file...</p>

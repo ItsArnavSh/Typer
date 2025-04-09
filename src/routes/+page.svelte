@@ -12,6 +12,7 @@
 
 	let competitionTime: number = 5;
 	let githubFileUrl = '';
+	let plainText = '';
 	let targetText = '';
 	let allowSpace = false;
 	let formSubmitted = false;
@@ -30,14 +31,19 @@
 	}
 
 	async function handleSubmit() {
-		if (!githubFileUrl || competitionTime <= 0) {
+		if (competitionTime <= 0) {
 			alert('Please provide a valid GitHub URL and time.');
 			return;
 		}
-
-		targetText = await getGithubFileContent(githubFileUrl);
-		loaded = true;
-		formSubmitted = true;
+		if (githubFileUrl) {
+			targetText = await getGithubFileContent(githubFileUrl);
+			loaded = true;
+			formSubmitted = true;
+		} else {
+			targetText = plainText;
+			loaded = true;
+			formSubmitted = true;
+		}
 	}
 </script>
 
@@ -77,6 +83,14 @@
 					placeholder="https://github.com/..."
 					class="terminal-text response w-full rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
 				/>
+			</div>
+			<div class="terminal-text prompt flex flex-row">
+				<label class="mr-2 mb-2">Plain Text:</label>
+				<textarea
+					bind:value={plainText}
+					placeholder="Anything..."
+					class="terminal-text response w-full rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
+				></textarea>
 			</div>
 
 			<!-- Allow Space Checkbox -->

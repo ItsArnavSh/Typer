@@ -16,14 +16,34 @@
 	function runAfter(callback: () => void) {
 		setTimeout(callback, competitionTime * 1000);
 	}
-	let wpm = 0;
+	let wpm: number;
 	function updateScore() {
 		let minutes = competitionTime / 60;
+
+		// Raw WPM: every 5 characters is a word
 		let words =
 			userInput.replace(newSpace, '').replace(newEnter, '').replace(newTab, '').length / 5;
-		wpm = words / minutes;
-		dispatch('timesUp', { wpm });
+
+		let rawWPM = words / minutes;
+
+		// Count correct and wrong characters
+		const correctCount = document.querySelectorAll('.correct').length;
+		const wrongCount = document.querySelectorAll('.error').length;
+
+		console.log('Correct:', correctCount, 'Wrong:', wrongCount);
+
+		// Accuracy-based scoring (optional)
+		const totalTyped = correctCount + wrongCount;
+		const accuracy = totalTyped > 0 ? correctCount / totalTyped : 0;
+
+		// Penalized score (score is scaled down from raw WPM based on accuracy)
+		const score = Math.max(rawWPM * accuracy, 0); // Or rawWPM - penalty if you prefer
+		wpm = score;
+		dispatch('timesUp', {
+			wpm
+		});
 	}
+
 	let userInput = '';
 	let userInpArray: string[] = [];
 	function updateData() {
@@ -115,7 +135,11 @@
 					<span>&nbsp;&nbsp;</span>{#if userInpArray.length - 1 === i}<span class="cursor"
 						></span>{/if}
 				{:else}
-					<span class={char == displayText[i] ? 'terminal-text response' : 'terminal-text error'}>
+					<span
+						class={char == displayText[i]
+							? 'terminal-text response correct'
+							: 'terminal-text error wrong'}
+					>
 						{char}{#if userInpArray.length - 1 === i}<span class="cursor"></span>{/if}
 					</span>
 				{/if}

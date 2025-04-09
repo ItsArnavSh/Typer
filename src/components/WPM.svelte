@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let wpm: number;
+	wpm = Math.round(wpm);
 </script>
 
 <div class="flex min-h-[40vh] items-center justify-center">

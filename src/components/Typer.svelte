@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	let targetText =
-		'#include<iostream>\n\n\tvoid bubbleSort(int arr[], int n) {\n\t\tfor (int i = 0; i < n - 1; ++i) {\n\t\t\tfor (int j = 0; j < n - i - 1; ++j) {\n\t\t\t\tif (arr[j] > arr[j + 1]) {\n\t\t\t\t\tint temp = arr[j];\n\t\t\t\t\tarr[j] = arr[j + 1];\n\t\t\t\t\tarr[j + 1] = temp;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tvoid printArray(const int arr[], int size) {\n\t\tfor (int i = 0; i < size; ++i)\n\t\t\tstd::cout << arr[i] << " ";\n\t\tstd::cout << "\\n";\n\t}\n\n\tint main() {\n\t\tint arr[] = {64, 34, 25, 12, 22, 11, 90};\n\t\tint n = sizeof(arr) / sizeof(arr[0]);\n\t\tbubbleSort(arr, n);\n\t\tstd::cout << "Sorted array: ";\n\t\tprintArray(arr, n);\n\t\treturn 0;\n\t}';
+	export let competitionTime: number;
+	export let targetText: string;
 
 	const dispatch = createEventDispatcher();
 	const newSpace = '\u0131'; // dotless i
@@ -13,13 +13,12 @@
 		.replace(/\n/g, newEnter)
 		.replace(/\t/g, newTab)
 		.split('');
-	const competitionTime = 20000;
 	function runAfter(callback: () => void) {
-		setTimeout(callback, competitionTime);
+		setTimeout(callback, competitionTime * 1000);
 	}
 	let wpm = 0;
 	function updateScore() {
-		let minutes = competitionTime / 1000 / 60;
+		let minutes = competitionTime / 60;
 		let words =
 			userInput.replace(newSpace, '').replace(newEnter, '').replace(newTab, '').length / 5;
 		wpm = words / minutes;

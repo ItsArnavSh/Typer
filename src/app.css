@@ -73,11 +73,11 @@ body {
 
 .cursor {
 	display: inline-block;
-	width: 0.6rem;
+	width: 0.2rem;
 	height: 1.2rem;
 	background-color: #00ff00;
 	vertical-align: middle;
-	margin-left: 0.2rem;
+	margin-left: 0.1rem;
 	animation: cursorBlink 1.2s step-end infinite;
 	box-shadow:
 		0 0 5px #00ff00,

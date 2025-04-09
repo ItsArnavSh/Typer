@@ -8,7 +8,7 @@
 	let start = false;
 	let times = false;
 	let loaded = false;
-	let wpm = 0;
+	let wpmData = { wpm: 0, raw_wpm: 0, total: 0, correctCount: 0, wrongCount: 0 };
 
 	let competitionTime: number = 5;
 	let githubFileUrl = '';
@@ -20,7 +20,11 @@
 	}
 
 	function timesUp(event) {
-		wpm = event.detail.wpm;
+		wpmData.wpm = event.detail.wpm;
+		wpmData.raw_wpm = event.detail.rawWPM;
+		wpmData.total = event.detail.total;
+		wpmData.correctCount = event.detail.correctCount;
+		wpmData.wrongCount = event.detail.wrongCount;
 		times = true;
 	}
 
@@ -79,7 +83,7 @@
 		<div class="m-auto h-[1000px] w-[50%]">
 			{#if loaded}
 				{#if times}
-					<Wpm {wpm} />
+					<Wpm {wpmData} />
 				{:else}
 					<Typer {targetText} {competitionTime} on:timesUp={timesUp} on:activateTimer={timerr} />
 				{/if}

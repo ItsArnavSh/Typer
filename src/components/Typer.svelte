@@ -39,8 +39,14 @@
 		// Penalized score (score is scaled down from raw WPM based on accuracy)
 		const score = Math.max(rawWPM * accuracy, 0); // Or rawWPM - penalty if you prefer
 		wpm = score;
+		let total = totalTyped;
+		console.log(correctCount, ' ', wrongCount);
 		dispatch('timesUp', {
-			wpm
+			wpm, //The score
+			rawWPM, //The score, assuming no mistakes
+			total, //Total characters typed
+			correctCount,
+			wrongCount
 		});
 	}
 

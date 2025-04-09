@@ -1,25 +1,41 @@
 <script lang="ts">
-	export let wpm: number;
-	wpm = Math.round(wpm);
+	export let wpmData: {
+		wpm: number;
+		raw_wpm: number;
+		total: number;
+		correctCount: number;
+		wrongCount: number;
+	};
+
+	let wpm = Math.round(wpmData.wpm);
+	let rawWpm = Math.round(wpmData.raw_wpm);
+	let correct = wpmData.correctCount;
+	let wrong = wpmData.wrongCount;
 </script>
 
 <div class="flex min-h-[40vh] items-center justify-center">
+	<div class="screen"></div>
+	<div class="flicker"></div>
 	<div
-		class="neon-glow rounded-xl border border-green-500 bg-black px-6 py-4 text-center font-mono text-4xl text-green-400 shadow-2xl md:text-5xl"
+		class="flex flex-col rounded-xl border border-green-500 bg-black px-6 py-6 font-mono text-green-400 shadow-2xl md:text-xl"
 	>
-		<span class="mb-2 block text-lg tracking-wider opacity-80 md:text-xl">Your WPM is</span>
-		<span class="text-6xl font-bold tracking-widest md:text-7xl">{wpm}</span>
+		<div class="terminal-text prompt mb-4">$ typing-stats yourText.txt</div>
+
+		<div class="terminal-text">
+			<span class="prompt"></span>
+			<span class="response">WPM: <span class="text-2xl">{wpm}</span></span>
+		</div>
+		<div class="terminal-text">
+			<span class="prompt"></span> <span class="response">Raw WPM: <span>{rawWpm}</span></span>
+		</div>
+		<div class="terminal-text">
+			<span class="prompt"></span>
+			<span class="response">Correct Chars: <span>{correct}</span></span>
+		</div>
+		<div class="terminal-text error">
+			<span class="prompt"></span> Wrong Chars: <span>{wrong}</span>
+		</div>
+
+		<div class="terminal-text prompt">$ <span class="cursor"></span></div>
 	</div>
 </div>
-
-<style>
-	.neon-glow {
-		text-shadow:
-			0 0 6px #22c55e,
-			0 0 12px #22c55e,
-			0 0 18px #22c55e;
-		box-shadow:
-			0 0 10px rgba(34, 197, 94, 0.3),
-			0 0 30px rgba(34, 197, 94, 0.2);
-	}
-</style>

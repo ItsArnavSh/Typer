@@ -4,48 +4,48 @@
 	export let targetText: string;
 	export let allowSpace = false;
 	const dispatch = createEventDispatcher();
-
 	const newSpace = '\u0131'; // dotless i
 	const newEnter = '\u02BC'; // modifier apostrophe
-	const newTab = '\u03BC';   // Greek mu
-
+	const newTab = '\u03BC'; // Greek mu
 	let yetToStart = true;
 
-	// Prepare the display text by replacing spaces, newlines, and tabs then splitting into an array.
 	let displayText = targetText
 		.replace(/ /g, newSpace)
 		.replace(/\n/g, newEnter)
 		.replace(/\t/g, newTab)
 		.split('');
-
 	function runAfter(callback: () => void) {
 		setTimeout(callback, competitionTime * 1000);
 	}
-
 	let wpm: number;
 	function updateScore() {
 		let minutes = competitionTime / 60;
-		// Raw WPM: every 5 characters is considered one word
+
+		// Raw WPM: every 5 characters is a word
 		let words =
 			userInput.replace(newSpace, '').replace(newEnter, '').replace(newTab, '').length / 5;
+
 		let rawWPM = words / minutes;
 
-		// Count correct and wrong characters by querying elements with the respective CSS classes.
+		// Count correct and wrong characters
 		const correctCount = document.querySelectorAll('.correct').length;
 		const wrongCount = document.querySelectorAll('.error').length;
+
+		console.log('Correct:', correctCount, 'Wrong:', wrongCount);
 
 		// Accuracy-based scoring (optional)
 		const totalTyped = correctCount + wrongCount;
 		const accuracy = totalTyped > 0 ? correctCount / totalTyped : 0;
 
-		// Penalized score (score scaled down from raw WPM based on accuracy)
-		const score = Math.max(rawWPM * accuracy, 0);
+		// Penalized score (score is scaled down from raw WPM based on accuracy)
+		const score = Math.max(rawWPM * accuracy, 0); // Or rawWPM - penalty if you prefer
 		wpm = score;
 		let total = totalTyped;
+		console.log(correctCount, ' ', wrongCount);
 		dispatch('timesUp', {
-			wpm,      // The score
-			rawWPM,   // The score, assuming no mistakes
-			total,    // Total characters typed
+			wpm, //The score
+			rawWPM, //The score, assuming no mistakes
+			total, //Total characters typed
 			correctCount,
 			wrongCount
 		});
@@ -61,10 +61,11 @@
 			dispatch('activateTimer', null);
 			yetToStart = false;
 		}
-		// Adjust userInput: if spaces should be allowed, replace with newSpace; otherwise, remove them.
+
 		userInput = userInput.replaceAll(' ', allowSpace ? newSpace : '');
-		// If the next character in displayText is a forbidden special character, automatically add it.
+		//userInpArray = userInput.split('');
 		while (forbiddenArr.includes(displayText[userInput.length])) {
+			//userInpArray.push(displayText[userInput.length]);
 			userInput += displayText[userInput.length];
 		}
 		userInpArray = userInput.split('');
@@ -75,13 +76,35 @@
 	function focusInput() {
 		inputRef?.focus();
 	}
+	function findAllOccurrences(str: string, char: string) {
+		return [...str].map((c, i) => (c === char ? i : -1)).filter((i) => i !== -1);
+	}
 
-	// Always render the entire text
-	let letLower: number;
-	let letHigher: number;
+	let enters = findAllOccurrences(targetText, '\n');
+	enters = [0, ...enters];
+	// Get the index in `enters` of the next \n after userInput.length
+	function nextEnterIndex(pos: number): number {
+		for (let i = 0; i < enters.length; i++) {
+			if (enters[i] > pos) return i;
+		}
+		return enters.length - 1; // fallback to last \n if beyond
+	}
+	let letLower: number, letHigher: number;
 	$: {
-		letLower = 0;
-		letHigher = displayText.length;
+		if (enters.length < 9) {
+			letLower = 0;
+			letHigher = displayText.length;
+		} else {
+			const currentEnterIndex = nextEnterIndex(userInput.length);
+
+			// Clamp so we don't go negative
+			const lowerEnterIndex = Math.max(currentEnterIndex - 3, 0);
+			const higherEnterIndex = Math.min(currentEnterIndex + 10, enters.length - 1);
+
+			// Now these are positions (in the actual string):
+			letLower = enters[lowerEnterIndex];
+			letHigher = enters[higherEnterIndex];
+		}
 	}
 </script>
 

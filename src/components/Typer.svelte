@@ -74,6 +74,7 @@
 			// Add the correct characters (space + next character)
 			userInput += displayText[userInput.length] + displayText[userInput.length + 1];
 		}
+
 		while (forbiddenArr.includes(displayText[userInput.length])) {
 			//userInpArray.push(displayText[userInput.length]);
 			userInput += displayText[userInput.length];

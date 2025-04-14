@@ -17,7 +17,7 @@
 	<div class="screen"></div>
 	<div class="flicker"></div>
 	<div
-		class="flex flex-col rounded-xl border border-green-500 bg-black px-6 py-6 font-mono text-green-400 shadow-2xl md:text-xl"
+		class="cascadia-font flex flex-col rounded-xl border border-green-500 bg-black px-6 py-6 text-green-400 shadow-2xl md:text-xl"
 	>
 		<div class="terminal-text prompt mb-4">$ typing-stats yourText.txt</div>
 

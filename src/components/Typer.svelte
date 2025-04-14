@@ -64,6 +64,16 @@
 
 		userInput = userInput.replaceAll(' ', allowSpace ? newSpace : '');
 		//userInpArray = userInput.split('');
+		if (
+			displayText[userInput.length - 1] == newSpace &&
+			userInput[userInput.length - 1] != newSpace &&
+			userInput[userInput.length - 1] != displayText[userInput.length - 1]
+		) {
+			// Remove the last character (which is misspelled)
+			userInput = userInput.slice(0, -1);
+			// Add the correct characters (space + next character)
+			userInput += displayText[userInput.length] + displayText[userInput.length + 1];
+		}
 		while (forbiddenArr.includes(displayText[userInput.length])) {
 			//userInpArray.push(displayText[userInput.length]);
 			userInput += displayText[userInput.length];
@@ -91,15 +101,20 @@
 	}
 	let letLower: number, letHigher: number;
 	$: {
-		const currentEnterIndex = nextEnterIndex(userInput.length);
+		if (enters.length < 9) {
+			letLower = 0;
+			letHigher = displayText.length;
+		} else {
+			const currentEnterIndex = nextEnterIndex(userInput.length);
 
-		// Clamp so we don't go negative
-		const lowerEnterIndex = Math.max(currentEnterIndex - 3, 0);
-		const higherEnterIndex = Math.min(currentEnterIndex + 10, enters.length - 1);
+			// Clamp so we don't go negative
+			const lowerEnterIndex = Math.max(currentEnterIndex - 3, 0);
+			const higherEnterIndex = Math.min(currentEnterIndex + 10, enters.length - 1);
 
-		// Now these are positions (in the actual string):
-		letLower = enters[lowerEnterIndex];
-		letHigher = enters[higherEnterIndex];
+			// Now these are positions (in the actual string):
+			letLower = enters[lowerEnterIndex];
+			letHigher = enters[higherEnterIndex];
+		}
 	}
 </script>
 

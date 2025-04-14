@@ -30,7 +30,7 @@
 </script>
 
 <div
-	class="glow-text mx-auto w-fit rounded-xl bg-black p-6 text-center font-mono text-5xl text-green-400 shadow-xl transition duration-300 select-none md:text-6xl"
+	class="glow-text cascadia-font mx-auto w-fit rounded-xl bg-black p-6 text-center text-5xl text-green-400 shadow-xl transition duration-300 select-none md:text-6xl"
 	class:pulse={remaining <= 10 && remaining > 0}
 	class:flash-red={flash}
 >

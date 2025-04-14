@@ -1,14 +1,7 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
-@font-face {
-	font-family: 'cascadia';
-	src: url('/fonts/Cascadia.ttf') format('truetype');
-}
 
-.cascadia {
-	font-family: 'cascadia', monospace;
-}
 body {
 	margin: 0;
 	padding: 0;

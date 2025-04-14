@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	export let competitionTime: number;
 	export let targetText: string;
-	export let allowSpace = false;
+	let allowSpace = true;
 	const dispatch = createEventDispatcher();
 	const newSpace = '\u0131'; // dotless i
 	const newEnter = '\u02BC'; // modifier apostrophe

@@ -14,7 +14,6 @@
 	let githubFileUrl = '';
 	let plainText = '';
 	let targetText = '';
-	let allowSpace = false;
 	let formSubmitted = false;
 
 	function timerr() {
@@ -93,12 +92,6 @@
 				></textarea>
 			</div>
 
-			<!-- Allow Space Checkbox -->
-			<div class="terminal-text prompt flex items-center space-x-2">
-				<input type="checkbox" bind:checked={allowSpace} id="allowSpace" class="accent-green-500" />
-				<label for="allowSpace">Allow Space</label>
-			</div>
-
 			<!-- Start Button -->
 			<button
 				class="terminal-text rounded border border-green-400 bg-black px-6 py-2 text-green-400 transition duration-200 hover:bg-green-600 hover:text-black"
@@ -114,13 +107,7 @@
 				{#if times}
 					<Wpm {wpmData} />
 				{:else}
-					<Typer
-						{allowSpace}
-						{targetText}
-						{competitionTime}
-						on:timesUp={timesUp}
-						on:activateTimer={timerr}
-					/>
+					<Typer {targetText} {competitionTime} on:timesUp={timesUp} on:activateTimer={timerr} />
 				{/if}
 			{:else}
 				<p class="text-white">Loading file...</p>

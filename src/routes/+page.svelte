@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { updateUserScore } from '$lib/store';
 	import Header from '../components/Header.svelte';
 	import Timer from '../components/Timer.svelte';
 	import Typer from '../components/Typer.svelte';
@@ -11,8 +12,7 @@
 	let wpmData = { wpm: 0, raw_wpm: 0, total: 0, correctCount: 0, wrongCount: 0 };
 
 	let competitionTime: number = 5;
-	let githubFileUrl = '';
-	let plainText = '';
+	let selectedLanguage = '';
 	let targetText = '';
 	let formSubmitted = false;
 
@@ -20,34 +20,41 @@
 		start = true;
 	}
 
-	function timesUp(event) {
+	async function timesUp(event) {
 		wpmData.wpm = event.detail.wpm;
 		wpmData.raw_wpm = event.detail.rawWPM;
 		wpmData.total = event.detail.total;
 		wpmData.correctCount = event.detail.correctCount;
 		wpmData.wrongCount = event.detail.wrongCount;
+
 		times = true;
+
+		await updateUserScore(wpmData.wpm, {
+			wpm: wpmData.wpm,
+			accuracy: (wpmData.correctCount * 100) / wpmData.wrongCount,
+			duration: competitionTime,
+			gameMode: selectedLanguage
+		});
 	}
 
+	function resetGame() {
+		start = false;
+		times = false;
+		wpmData = { wpm: 0, raw_wpm: 0, total: 0, correctCount: 0, wrongCount: 0 };
+		formSubmitted = false;
+	}
 	async function handleSubmit() {
-		if (competitionTime <= 0) {
-			alert('Please provide a valid GitHub URL and time.');
-			return;
-		}
-		if (githubFileUrl) {
-			targetText = await getGithubFileContent(githubFileUrl);
-			loaded = true;
-			formSubmitted = true;
-		} else {
-			targetText = plainText;
+		if (selectedLanguage) {
+			targetText = await getGithubFileContent(selectedLanguage);
 			loaded = true;
 			formSubmitted = true;
 		}
 	}
 </script>
 
-<!-- UI -->
-<div class="main flex h-full w-full flex-col items-center justify-center bg-black text-white">
+<div
+	class="main flex h-full w-full flex-col items-center justify-center bg-black font-mono text-white"
+>
 	<div class="relative flex w-full items-center justify-center">
 		<Header />
 		<div class="absolute right-0">
@@ -59,37 +66,28 @@
 		</div>
 	</div>
 
-	<!-- Initial Form -->
 	{#if !formSubmitted}
 		<div class="mt-10 flex w-[60%] flex-col space-y-6">
-			<!-- Competition Time -->
-			<div class="terminal-text prompt flex flex-col">
-				<label class="mb-2">Competition Time (seconds):</label>
-				<input
-					type="number"
-					bind:value={competitionTime}
-					min="1"
-					class="terminal-text response rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
-				/>
-			</div>
-
-			<!-- GitHub File URL -->
-			<div class="terminal-text prompt flex flex-row">
-				<label class="mb-2">GitHub File URL:</label>
-				<input
-					type="text"
-					bind:value={githubFileUrl}
-					placeholder="https://github.com/..."
-					class="terminal-text response w-full rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
-				/>
-			</div>
-			<div class="terminal-text prompt flex flex-row">
-				<label class="mr-2 mb-2">Plain Text:</label>
-				<textarea
-					bind:value={plainText}
-					placeholder="Anything..."
-					class="terminal-text response w-full rounded border border-gray-700 bg-black p-2 focus:ring-2 focus:ring-green-400 focus:outline-none"
-				></textarea>
+			<!-- Language Selector Only -->
+			<div class="terminal-text prompt flex flex-col space-y-2">
+				<label for="language" class="text-green-400">> Choose a language to begin:</label>
+				<select
+					id="language"
+					bind:value={selectedLanguage}
+					class="terminal-text response w-full rounded-md border border-green-400 bg-black px-3 py-2 text-green-400 shadow-sm placeholder:text-gray-500 focus:border-lime-400 focus:ring-2 focus:ring-green-500 focus:outline-none"
+				>
+					<option value="" disabled selected class="bg-black text-white"
+						>-- Select Language --</option
+					>
+					<option value="python" class="bg-black text-green-400">Python</option>
+					<option value="javascript" class="bg-black text-green-400">JavaScript</option>
+					<option value="typescript" class="bg-black text-green-400">TypeScript</option>
+					<option value="go" class="bg-black text-green-400">Go</option>
+					<option value="rust" class="bg-black text-green-400">Rust</option>
+					<option value="c" class="bg-black text-green-400">C</option>
+					<option value="cpp" class="bg-black text-green-400">C++</option>
+					<option value="java" class="bg-black text-green-400">Java</option>
+				</select>
 			</div>
 
 			<!-- Start Button -->
@@ -106,6 +104,7 @@
 			{#if loaded}
 				{#if times}
 					<Wpm {wpmData} />
+					<button onclick={resetGame}></button>
 				{:else}
 					<Typer {targetText} {competitionTime} on:timesUp={timesUp} on:activateTimer={timerr} />
 				{/if}

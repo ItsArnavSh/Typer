@@ -5,7 +5,14 @@
 	import Typer from '../components/Typer.svelte';
 	import Wpm from '../components/WPM.svelte';
 	import { getGithubFileContent } from '../utils/getGitCode';
-
+	import { auth } from '../lib/firebase';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	onMount(() => {
+		if (auth.currentUser == null) {
+			goto('/signin');
+		}
+	});
 	let start = false;
 	let times = false;
 	let loaded = false;
@@ -104,7 +111,10 @@
 			{#if loaded}
 				{#if times}
 					<Wpm {wpmData} />
-					<button onclick={resetGame}></button>
+					<button
+						onclick={resetGame}
+						class="terminal-text border border-green-400 bg-green-400 p-4 text-white">RESET</button
+					>
 				{:else}
 					<Typer {targetText} {competitionTime} on:timesUp={timesUp} on:activateTimer={timerr} />
 				{/if}

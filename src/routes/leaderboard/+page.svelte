@@ -1,237 +1,154 @@
-<script lang="ts">
-	import { onMount } from 'svelte';
-	import { auth, db } from '$lib/firebase';
-	import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
+<script>
+	import Terminal from './Terminal.svelte';
 
-	interface LeaderboardUser {
-		id: string;
-		username: string;
-		score: number; // WPM
-		attempts: number;
-		rank: number;
-	}
+	let currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-	let leaderboardData: LeaderboardUser[] = [];
-	let currentUserRank: LeaderboardUser | null = null;
-	let loading = true;
-	let error = '';
-	let showCursor = true;
-
-	// Blinking cursor effect
-	onMount(() => {
-		const interval = setInterval(() => {
-			showCursor = !showCursor;
-		}, 500);
-
-		fetchLeaderboard();
-
-		return () => clearInterval(interval);
-	});
-
-	async function fetchLeaderboard() {
-		try {
-			loading = true;
-			error = '';
-
-			// Fetch all users ordered by score (WPM) in descending order
-			const usersRef = collection(db, 'users');
-			const q = query(usersRef, orderBy('score', 'desc'));
-			const querySnapshot = await getDocs(q);
-
-			const allUsers: LeaderboardUser[] = [];
-			let currentUserData: LeaderboardUser | null = null;
-			let rank = 1;
-
-			querySnapshot.forEach((doc) => {
-				const data = doc.data();
-				const userData: LeaderboardUser = {
-					id: doc.id,
-					username: data.username || data.email || 'Anonymous',
-					score: data.score || 0,
-					attempts: data.attempts || 0,
-					rank: rank
-				};
-
-				allUsers.push(userData);
-
-				// Check if this is the current user
-				if (auth.currentUser && doc.id === auth.currentUser.uid) {
-					currentUserData = userData;
-				}
-
-				rank++;
-			});
-
-			// Take top 10 for main leaderboard display
-			leaderboardData = allUsers.slice(0, 10);
-			currentUserRank = currentUserData;
-
-			loading = false;
-		} catch (err) {
-			console.error('Error fetching leaderboard:', err);
-			error = 'Failed to load leaderboard';
-			loading = false;
-		}
-	}
+	// Update clock every minute
+	setInterval(() => {
+		currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	}, 60000);
 </script>
 
-<div class="terminal min-h-screen bg-black text-left font-mono text-green-400">
-	<div class="mx-auto max-w-6xl">
-		<!-- Terminal Header with Back Button -->
-		<div class="terminal-text mb-6">
-			<div class="prompt mb-2">
-				<span class="text-green-400">user@typingchallenge:~$</span>
-				<a href="/" class="ml-2 text-green-400 underline hover:text-lime-400">cd ../game</a>
+<!-- Full Retro Desktop Environment -->
+<div class="desktop-environment relative min-h-screen overflow-hidden bg-teal-600">
+	<!-- Desktop Background Pattern -->
+	<div class="desktop-bg absolute inset-0"></div>
+
+	<!-- Desktop Icons -->
+	<div class="desktop-icons absolute top-4 left-4 space-y-4">
+		<div class="desktop-icon group flex cursor-pointer flex-col items-center">
+			<div
+				class="icon-bg flex h-8 w-8 items-center justify-center border border-gray-400 bg-gray-300 text-xs"
+			>
+				💾
 			</div>
-			<div class="prompt mb-4">
-				<span class="text-green-400">user@typingchallenge:~$</span>
-				<span class="ml-2">cat leaderboard.txt</span>
-				{#if showCursor}<span class="cursor">|</span>{/if}
+			<span class="mt-1 px-1 text-xs text-white group-hover:bg-blue-600">System</span>
+		</div>
+		<div class="desktop-icon group flex cursor-pointer flex-col items-center">
+			<div
+				class="icon-bg flex h-8 w-8 items-center justify-center border border-gray-400 bg-gray-300 text-xs"
+			>
+				📁
 			</div>
+			<span class="mt-1 px-1 text-xs text-white group-hover:bg-blue-600">Games</span>
+		</div>
+		<div class="desktop-icon group flex cursor-pointer flex-col items-center">
+			<div
+				class="icon-bg flex h-8 w-8 items-center justify-center border border-gray-400 bg-gray-300 text-xs"
+			>
+				🗑️
+			</div>
+			<span class="mt-1 px-1 text-xs text-white group-hover:bg-blue-600">Trash</span>
+		</div>
+	</div>
+
+	<!-- Terminal Window Component -->
+	<div class="flex min-h-screen items-center justify-center p-8">
+		<Terminal />
+	</div>
+
+	<!-- Taskbar -->
+	<div
+		class="taskbar fixed right-0 bottom-0 left-0 flex h-8 items-center justify-between border-t-2 border-t-white border-r-gray-600 border-l-white bg-gray-300 px-2"
+	>
+		<!-- Start Button -->
+		<button
+			class="start-btn flex items-center space-x-1 border border-t-white border-r-gray-600 border-b-gray-600 border-l-white bg-gray-300 px-3 py-1 text-xs font-bold hover:bg-gray-200 active:border-t-gray-600 active:border-r-white active:border-b-white active:border-l-gray-600"
+		>
+			<div class="h-3 w-3 rounded-sm bg-red-600"></div>
+			<span>Start</span>
+		</button>
+
+		<!-- Running Programs -->
+		<div class="flex space-x-1">
+			<div class="taskbar-item border border-gray-600 bg-gray-400 px-2 py-1 text-xs">Terminal</div>
 		</div>
 
-		{#if loading}
-			<div class="terminal-text">
-				<div class="response">
-					<span>Loading leaderboard data...</span>
-					{#if showCursor}<span class="cursor">|</span>{/if}
-				</div>
-			</div>
-		{:else if error}
-			<div class="terminal-text">
-				<div class="error mb-4">
-					<span>ERROR: {error}</span>
-				</div>
-				<div class="prompt">
-					<span class="text-green-400">user@typingchallenge:~$</span>
-					<button
-						class="ml-2 text-green-400 underline hover:text-lime-400"
-						on:click={fetchLeaderboard}
-					>
-						retry
-					</button>
-				</div>
-			</div>
-		{:else}
-			<!-- Terminal Output -->
-			<div class=" terminal-text text-center">
-				<div class="response mb-6">
-					<div class="mb-2">===============================================</div>
-					<div class="mb-2">🏆 TYPING LEADERBOARD 🏆</div>
-					<div class="mb-4">===============================================</div>
-
-					<!-- Header -->
-					<div class=" text-lime-400">
-						<span class="inline-block w-16">RANK</span>
-						<span class="inline-block w-64">USERNAME</span>
-						<span class="inline-block w-32">WPM</span>
-						<span class="inline-block w-32">ATTEMPTS</span>
-					</div>
-
-					<!-- Leaderboard Entries -->
-					{#each leaderboardData as user, index}
-						<div class="mb-1 rounded px-2 py-1 hover:bg-gray-900">
-							<!-- Rank with special styling for top 3 -->
-							{#if user.rank === 1}
-								<span class="inline-block w-16 text-yellow-400">🥇</span>
-							{:else if user.rank === 2}
-								<span class="inline-block w-16 text-gray-300">🥈</span>
-							{:else if user.rank === 3}
-								<span class="inline-block w-16 text-orange-400">🥉</span>
-							{:else}
-								<span class="inline-block w-16">#{user.rank}</span>
-							{/if}
-
-							<!-- Username -->
-							<span class="inline-block w-64 truncate text-green-300">
-								{user.username}
-							</span>
-
-							<!-- WPM -->
-							<span class="inline-block w-32 font-bold text-white">
-								{user.score}
-							</span>
-
-							<!-- Attempts -->
-							<span class="inline-block w-32 text-gray-400">
-								{user.attempts}
-							</span>
-						</div>
-					{/each}
-
-					<div class="mt-4 mb-4">-----------------------------------------------</div>
-				</div>
-
-				<!-- Current User Rank -->
-				{#if currentUserRank}
-					<div class="response mb-4">
-						<div class="mb-2 text-lime-400">YOUR CURRENT RANKING:</div>
-						{#if currentUserRank.rank <= 10}
-							<div class="text-green-300">
-								🎉 Congratulations! You're in the TOP 10 at rank #{currentUserRank.rank}!
-							</div>
-						{:else}
-							<div class="rounded border border-green-400 bg-gray-900 p-3">
-								<span class="inline-block w-8 text-yellow-400">#{currentUserRank.rank}</span>
-								<span class="inline-block w-32 truncate font-bold text-yellow-400">
-									{currentUserRank.username} (YOU)
-								</span>
-								<span class="inline-block w-16 font-bold text-white">
-									{currentUserRank.score}
-								</span>
-								<span class="inline-block w-16 text-gray-400">
-									{currentUserRank.attempts}
-								</span>
-							</div>
-						{/if}
-					</div>
-				{/if}
-
-				<!-- Commands -->
-				<div class="prompt mb-2">
-					<span class="text-green-400">user@typingchallenge:~$</span>
-					<button
-						class="ml-2 text-green-400 underline hover:text-lime-400"
-						on:click={fetchLeaderboard}
-					>
-						refresh
-					</button>
-				</div>
-
-				<div class="prompt mb-2">
-					<span class="text-green-400">user@typingchallenge:~$</span>
-					<a href="/" class="ml-2 text-green-400 underline hover:text-lime-400">cd ../game</a>
-				</div>
-
-				<div class="prompt">
-					<span class="text-green-400">user@typingchallenge:~$</span>
-					<span class="ml-2">_</span>
-					{#if showCursor}<span class="cursor">|</span>{/if}
-				</div>
-			</div>
-		{/if}
+		<!-- System Tray -->
+		<div class="system-tray flex items-center space-x-2 text-xs">
+			<span>🔊</span>
+			<span
+				class="border border-t-gray-600 border-r-white border-b-white border-l-gray-600 bg-gray-400 px-2 py-1"
+			>
+				{currentTime}
+			</span>
+		</div>
 	</div>
 </div>
 
 <style>
-	.cursor {
-		animation: blink 1s infinite;
+	@import url('https://fonts.googleapis.com/css2?family=MS+Gothic&display=swap');
+
+	.desktop-environment {
+		font-family: 'MS Gothic', 'Courier New', monospace;
+		background: #008080;
+		background-image:
+			repeating-linear-gradient(
+				45deg,
+				transparent,
+				transparent 2px,
+				rgba(255, 255, 255, 0.1) 2px,
+				rgba(255, 255, 255, 0.1) 4px
+			),
+			repeating-linear-gradient(
+				-45deg,
+				transparent,
+				transparent 2px,
+				rgba(0, 0, 0, 0.1) 2px,
+				rgba(0, 0, 0, 0.1) 4px
+			);
 	}
 
-	@keyframes blink {
+	.desktop-bg {
+		background-image:
+			radial-gradient(circle at 25% 25%, rgba(0, 128, 128, 0.8) 0%, transparent 50%),
+			radial-gradient(circle at 75% 75%, rgba(0, 100, 100, 0.6) 0%, transparent 50%);
+		animation: subtle-shift 20s ease-in-out infinite;
+	}
+
+	@keyframes subtle-shift {
 		0%,
-		50% {
-			opacity: 1;
-		}
-		51%,
 		100% {
-			opacity: 0;
+			opacity: 0.3;
+		}
+		50% {
+			opacity: 0.5;
 		}
 	}
 
-	/* Ensure proper monospace alignment */
-	.terminal-text {
-		white-space: pre-wrap;
-		word-break: break-all;
+	.taskbar {
+		background: #c0c0c0;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+	}
+
+	.start-btn {
+		transition: all 0.1s ease;
+	}
+
+	.desktop-icon:hover .icon-bg {
+		background: #316ac5;
+		color: white;
+	}
+
+	/* Classic 3D button effects */
+	.start-btn:active {
+		box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Enhanced retro styling */
+	.taskbar-item {
+		background: linear-gradient(to bottom, #e0e0e0, #c0c0c0);
+		text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+	}
+
+	/* Mobile responsiveness */
+	@media (max-width: 768px) {
+		.desktop-icons {
+			display: none;
+		}
+
+		.taskbar {
+			height: 32px;
+		}
 	}
 </style>

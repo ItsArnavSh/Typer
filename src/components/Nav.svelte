@@ -36,20 +36,20 @@
 <div class="fixed top-4 right-4 z-50 font-mono">
 	<!-- Menu Button -->
 	<div
-		class="terminal flex items-center justify-end space-x-3 rounded border border-green-400 bg-black px-4 py-2 shadow-lg"
+		class="flex items-center justify-end space-x-3 rounded border border-green-400 bg-blue-600 px-4 shadow-lg"
 	>
 		<button
 			class="prompt text-right transition-all hover:text-lime-400"
 			on:click={() => (menuOpen = !menuOpen)}
 			aria-label="Toggle menu"
 		>
-			OSDType -h
+			Menu
 		</button>
 	</div>
 
 	<!-- Terminal Dropdown -->
 	{#if menuOpen}
-		<div class="terminal mt-2 w-max border border-green-400 bg-black shadow-2xl">
+		<div class="terminal w-max border border-green-400 bg-black shadow-2xl">
 			<div class="p-4">
 				<!-- Terminal Header -->
 				<div class="prompt mb-3 text-green-400">user@OSDType:~$ ls -la</div>

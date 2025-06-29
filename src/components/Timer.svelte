@@ -29,51 +29,41 @@
 	}
 </script>
 
-<div
-	class="glow-text cascadia-font mx-auto w-fit rounded-xl bg-black p-6 text-center text-5xl text-green-400 shadow-xl transition duration-300 select-none md:text-6xl"
-	class:pulse={remaining <= 10 && remaining > 0}
-	class:flash-red={flash}
->
-	⏱ {formatTime(remaining)}
+<!-- Terminal style countdown -->
+<div class="terminal-text text-xl md:text-2xl">
+	<span
+		class="ml-4 inline-block font-mono text-lime-400 transition-all duration-200"
+		class:flash-border={flash}
+		class:urgent={remaining <= 10 && remaining > 0}
+	>
+		[{formatTime(remaining)}]
+	</span>
 </div>
 
 <style>
-	.glow-text {
-		text-shadow:
-			0 0 6px #22c55e,
-			0 0 12px #22c55e;
+	.urgent {
+		animation: blinkGreen 1s infinite;
 	}
 
-	.pulse {
-		animation: pulse 1s infinite;
-	}
-
-	.flash-red {
+	.flash-border {
+		border: 1px solid #f87171;
+		padding: 0 0.5rem;
+		border-radius: 4px;
 		color: #f87171;
 		text-shadow:
-			0 0 6px #f87171,
-			0 0 12px #f87171;
-		background-color: #1f1f1f;
+			0 0 3px #f87171,
+			0 0 6px #f87171;
 	}
 
-	@keyframes pulse {
-		0% {
-			transform: scale(1);
-			text-shadow:
-				0 0 8px #22c55e,
-				0 0 16px #22c55e;
+	@keyframes blinkGreen {
+		0%,
+		100% {
+			color: #22c55e;
+			text-shadow: 0 0 4px #22c55e;
 		}
 		50% {
-			transform: scale(1.05);
-			text-shadow:
-				0 0 12px #22c55e,
-				0 0 20px #22c55e;
-		}
-		100% {
-			transform: scale(1);
-			text-shadow:
-				0 0 8px #22c55e,
-				0 0 16px #22c55e;
+			color: #4ade80;
+			text-shadow: 0 0 8px #4ade80;
 		}
 	}
 </style>

@@ -1,6 +1,10 @@
 <script lang="ts">
 	import '../app.css';
 	let { children } = $props();
+	import TerminalMenu from '../components/Nav.svelte';
 </script>
 
-{@render children()}
+<main>
+	<TerminalMenu />
+	{@render children()}
+</main>

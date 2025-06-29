@@ -8,11 +8,17 @@
 	import { auth } from '../lib/firebase';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { onAuthStateChanged } from 'firebase/auth';
 	onMount(() => {
-		if (auth.currentUser == null) {
-			goto('/signin');
-		}
-	});
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			if (!user) {
+				goto('/signin');
+			}
+			// else: user is authenticated, do nothing
+		});
+
+		return unsubscribe; // cleanup on component destroy
+});
 	let start = false;
 	let times = false;
 	let loaded = false;

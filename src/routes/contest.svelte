@@ -24,7 +24,7 @@
 	let loaded = false;
 	let wpmData = { wpm: 0, raw_wpm: 0, total: 0, correctCount: 0, wrongCount: 0 };
 
-	let competitionTime: number = 5;
+	let competitionTime: number = 30;
 	let selectedLanguage = '';
 	let targetText = '';
 	let formSubmitted = false;

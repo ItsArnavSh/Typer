@@ -1,8 +1,6 @@
-
 class Box {
     String name;
     int x, y, w, h;
-
     Box(String name, int x, int y, int w, int h) {
         this.name = name;
         this.x = x;
@@ -10,18 +8,15 @@ class Box {
         this.w = w;
         this.h = h;
     }
-
     boolean overlaps(Box other) {
         return !(x + w < other.x || x > other.x + other.w ||
                  y + h < other.y || y > other.y + other.h);
     }
 }
-
 public class Collision {
     public static void main(String[] args) {
         Box player = new Box("player", 0, 5, 3, 3);
         Box wall = new Box("wall", 20, 5, 5, 5);
-
         for (int i = 0; i < 30; i++) {
             player.x += 1;
             if (player.overlaps(wall)) {

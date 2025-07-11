@@ -1,13 +1,9 @@
-
 package main
-
 import "fmt"
-
 type Timer struct {
 	wait    int
 	counter int
 }
-
 func (t *Timer) Tick() bool {
 	t.counter++
 	if t.counter >= t.wait {
@@ -16,11 +12,9 @@ func (t *Timer) Tick() bool {
 	}
 	return false
 }
-
 func main() {
 	timer := Timer{wait: 6}
 	spawns := 0
-
 	for i := 0; i < 30; i++ {
 		if timer.Tick() {
 			fmt.Println("spawned at tick", i)

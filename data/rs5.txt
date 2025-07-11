@@ -1,14 +1,11 @@
-
 struct Level {
     name: &'static str,
     objects: Vec<&'static str>,
 }
-
 impl Level {
     fn add(&mut self, obj: &'static str) {
         self.objects.push(obj);
     }
-
     fn show(&self) {
         println!("level: {}", self.name);
         for o in self.objects.iter() {
@@ -16,11 +13,9 @@ impl Level {
         }
     }
 }
-
 fn main() {
     let names = vec!["byte_start", "signal_zone", "init_lab", "osdc_final"];
     let mut levels: Vec<Level> = Vec::new();
-
     for name in names {
         let mut lvl = Level { name, objects: vec![] };
         lvl.add("spawn");
@@ -28,7 +23,6 @@ fn main() {
         lvl.add("enemy");
         levels.push(lvl);
     }
-
     for lvl in levels.iter() {
         lvl.show();
         println!();

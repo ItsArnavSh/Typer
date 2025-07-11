@@ -1,12 +1,8 @@
-
 #include <iostream>
-
 struct Timer {
     int wait;
     int counter = 0;
-
     Timer(int w) : wait(w) {}
-
     bool tick() {
         counter++;
         if (counter >= wait) {
@@ -16,18 +12,15 @@ struct Timer {
         return false;
     }
 };
-
 int main() {
     Timer timer(6);
     int spawns = 0;
-
     for (int i = 0; i < 30; ++i) {
         if (timer.tick()) {
             std::cout << "spawned enemy at " << i << "\n";
             spawns++;
         }
     }
-
     std::cout << "total spawns: " << spawns << "\n";
     return 0;
 }

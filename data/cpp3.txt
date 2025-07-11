@@ -1,27 +1,21 @@
-
 #include <iostream>
-
 struct Input {
     bool left = false;
     bool right = false;
     bool jump = false;
-
     void update(int t) {
         left = t % 3 == 0;
         right = t % 2 == 0;
         jump = t % 5 == 0;
     }
 };
-
 struct Player {
     int x = 0;
     int y = 0;
     bool jumping = false;
-
     void update(const Input& in) {
         if (in.left) x -= 1;
         if (in.right) x += 1;
-
         if (in.jump && !jumping) {
             jumping = true;
             y += 5;
@@ -34,16 +28,13 @@ struct Player {
         }
     }
 };
-
 int main() {
     Input input;
     Player player;
-
     for (int t = 0; t < 30; ++t) {
         input.update(t);
         player.update(input);
         std::cout << "tick " << t << " pos " << player.x << " " << player.y << "\n";
     }
-
     return 0;
 }

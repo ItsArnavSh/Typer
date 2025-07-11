@@ -1,10 +1,8 @@
-
 class Timer {
   constructor(wait) {
     this.wait = wait;
     this.counter = 0;
   }
-
   tick() {
     this.counter++;
     if (this.counter >= this.wait) {
@@ -14,15 +12,12 @@ class Timer {
     return false;
   }
 }
-
 let timer = new Timer(6);
 let total = 0;
-
 for (let i = 0; i < 30; i++) {
   if (timer.tick()) {
     console.log("spawned at", i);
     total++;
   }
 }
-
 console.log("total spawns:", total);

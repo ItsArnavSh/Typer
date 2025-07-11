@@ -1,12 +1,9 @@
-
 class Timer {
     int wait;
     int counter = 0;
-
     Timer(int wait) {
         this.wait = wait;
     }
-
     boolean tick() {
         counter++;
         if (counter >= wait) {
@@ -16,19 +13,16 @@ class Timer {
         return false;
     }
 }
-
 public class TimerSpawn {
     public static void main(String[] args) {
         Timer timer = new Timer(6);
         int spawns = 0;
-
         for (int i = 0; i < 30; i++) {
             if (timer.tick()) {
                 System.out.println("spawned at tick " + i);
                 spawns++;
             }
         }
-
         System.out.println("total spawns: " + spawns);
     }
 }

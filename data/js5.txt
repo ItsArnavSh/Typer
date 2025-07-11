@@ -1,23 +1,18 @@
-
 class Level {
   constructor(name) {
     this.name = name;
     this.entities = [];
   }
-
   add(entity) {
     this.entities.push(entity);
   }
-
   show() {
     console.log("level:", this.name);
     this.entities.forEach(e => console.log("-", e));
   }
 }
-
 const names = ["init_zone", "byte_plains", "signal_tower", "osdc_arena"];
 const levels = [];
-
 for (let name of names) {
   let lvl = new Level(name);
   lvl.add("spawn");
@@ -25,7 +20,6 @@ for (let name of names) {
   lvl.add("enemy");
   levels.push(lvl);
 }
-
 levels.forEach(level => {
   level.show();
   console.log("");

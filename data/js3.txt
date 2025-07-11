@@ -1,25 +1,21 @@
-
 class Input {
   constructor() {
     this.left = false;
     this.right = false;
     this.jump = false;
   }
-
   tick(t) {
     this.left = t % 3 === 0;
     this.right = t % 2 === 0;
     this.jump = t % 5 === 0;
   }
 }
-
 class Player {
   constructor() {
     this.x = 0;
     this.y = 0;
     this.jumping = false;
   }
-
   update(input) {
     if (input.left) this.x -= 1;
     if (input.right) this.x += 1;
@@ -35,10 +31,8 @@ class Player {
     }
   }
 }
-
 const input = new Input();
 const player = new Player();
-
 for (let i = 0; i < 30; i++) {
   input.tick(i);
   player.update(input);

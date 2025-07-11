@@ -1,28 +1,21 @@
-
 package main
-
 import "fmt"
-
 type Level struct {
 	name    string
 	objects []string
 }
-
 func (l *Level) Add(obj string) {
 	l.objects = append(l.objects, obj)
 }
-
 func (l *Level) Show() {
 	fmt.Println("level:", l.name)
 	for _, obj := range l.objects {
 		fmt.Println("-", obj)
 	}
 }
-
 func main() {
 	names := []string{"start_zone", "byte_path", "osdc_lab", "final_room"}
 	var levels []Level
-
 	for _, name := range names {
 		lvl := Level{name: name}
 		lvl.Add("spawn")
@@ -30,7 +23,6 @@ func main() {
 		lvl.Add("enemy")
 		levels = append(levels, lvl)
 	}
-
 	for _, lvl := range levels {
 		lvl.Show()
 		fmt.Println()

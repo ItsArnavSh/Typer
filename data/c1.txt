@@ -1,13 +1,10 @@
-
 #include <stdio.h>
-
 typedef struct {
     char* name;
     float x, y;
     float vx, vy;
     float gravity;
 } Body;
-
 void update(Body* b) {
     b->vy += b->gravity;
     b->x += b->vx;
@@ -17,17 +14,14 @@ void update(Body* b) {
         b->vy *= -0.8f;
     }
 }
-
 int main() {
     Body player = {"player", 0, 0, 2, -6, 0.5};
     Body box = {"box", 10, 10, 0, 0, 0.5};
-
     for (int t = 0; t < 30; t++) {
         update(&player);
         update(&box);
         printf("%s %.1f %.1f\n", player.name, player.x, player.y);
         printf("%s %.1f %.1f\n", box.name, box.x, box.y);
     }
-
     return 0;
 }

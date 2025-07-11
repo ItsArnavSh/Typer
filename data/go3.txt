@@ -1,23 +1,17 @@
-
 package main
-
 import "fmt"
-
 type Input struct {
 	left, right, jump bool
 }
-
 type Player struct {
 	x, y     int
 	jumping  bool
 }
-
 func updateInput(input *Input, tick int) {
 	input.left = tick%3 == 0
 	input.right = tick%2 == 0
 	input.jump = tick%5 == 0
 }
-
 func updatePlayer(p *Player, input Input) {
 	if input.left {
 		p.x--
@@ -36,11 +30,9 @@ func updatePlayer(p *Player, input Input) {
 		}
 	}
 }
-
 func main() {
 	input := Input{}
 	player := Player{}
-
 	for t := 0; t < 30; t++ {
 		updateInput(&input, t)
 		updatePlayer(&player, input)

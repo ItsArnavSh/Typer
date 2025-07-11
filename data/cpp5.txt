@@ -1,0 +1,44 @@
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct Level {
+    std::string name;
+    std::vector<std::string> entities;
+
+    void add(const std::string& e) {
+        entities.push_back(e);
+    }
+
+    void show() const {
+        std::cout << "level: " << name << "\n";
+        for (const auto& e : entities) {
+            std::cout << "- " << e << "\n";
+        }
+    }
+};
+
+int main() {
+    std::vector<std::string> names = {
+        "signal_zone", "init_tower", "byte_city", "osdc_final"
+    };
+
+    std::vector<Level> levels;
+
+    for (const auto& name : names) {
+        Level lvl;
+        lvl.name = name;
+        lvl.add("spawn_point");
+        lvl.add("exit");
+        lvl.add("enemy");
+        levels.push_back(lvl);
+    }
+
+    for (const auto& lvl : levels) {
+        lvl.show();
+        std::cout << "\n";
+    }
+
+    return 0;
+}

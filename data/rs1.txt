@@ -1,0 +1,36 @@
+
+struct Body {
+    name: &'static str,
+    x: f32,
+    y: f32,
+    vx: f32,
+    vy: f32,
+    gravity: f32,
+}
+
+impl Body {
+    fn update(&mut self) {
+        self.vy += self.gravity;
+        self.x += self.vx;
+        self.y += self.vy;
+
+        if self.y > 100.0 {
+            self.y = 100.0;
+            self.vy *= -0.8;
+        }
+    }
+}
+
+fn main() {
+    let mut bodies = vec![
+        Body { name: "player", x: 0.0, y: 0.0, vx: 2.0, vy: -6.0, gravity: 0.5 },
+        Body { name: "box", x: 10.0, y: 10.0, vx: 0.0, vy: 0.0, gravity: 0.5 },
+    ];
+
+    for tick in 0..30 {
+        for b in bodies.iter_mut() {
+            b.update();
+            println!("{} {:.1} {:.1}", b.name, b.x, b.y);
+        }
+    }
+}

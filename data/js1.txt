@@ -1,0 +1,34 @@
+
+class Body {
+  constructor(name, x, y, vx, vy) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.gravity = 0.5;
+  }
+
+  update() {
+    this.vy += this.gravity;
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.y > 100) {
+      this.y = 100;
+      this.vy *= -0.7;
+    }
+  }
+}
+
+const bodies = [
+  new Body("player", 0, 0, 2, -6),
+  new Body("enemy", 5, 10, 1, -2)
+];
+
+for (let tick = 0; tick < 30; tick++) {
+  bodies.forEach(b => {
+    b.update();
+    console.log(b.name, b.x.toFixed(1), b.y.toFixed(1));
+  });
+}

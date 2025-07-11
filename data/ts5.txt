@@ -1,0 +1,37 @@
+
+class Level {
+  name: string;
+  objects: string[];
+
+  constructor(name: string) {
+    this.name = name;
+    this.objects = [];
+  }
+
+  add(item: string): void {
+    this.objects.push(item);
+  }
+
+  describe(): void {
+    console.log("level:", this.name);
+    for (const obj of this.objects) {
+      console.log("-", obj);
+    }
+  }
+}
+
+const names = ["init_zone", "byte_plains", "signal_tower", "osdc_final"];
+const levels: Level[] = [];
+
+for (const name of names) {
+  const lvl = new Level(name);
+  lvl.add("spawn_point");
+  lvl.add("exit_portal");
+  lvl.add("enemy_unit");
+  levels.push(lvl);
+}
+
+for (const lvl of levels) {
+  lvl.describe();
+  console.log();
+}

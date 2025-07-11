@@ -1,0 +1,30 @@
+
+struct Timer {
+    wait: i32,
+    counter: i32,
+}
+
+impl Timer {
+    fn tick(&mut self) -> bool {
+        self.counter += 1;
+        if self.counter >= self.wait {
+            self.counter = 0;
+            return true;
+        }
+        false
+    }
+}
+
+fn main() {
+    let mut timer = Timer { wait: 6, counter: 0 };
+    let mut spawns = 0;
+
+    for tick in 0..30 {
+        if timer.tick() {
+            println!("spawned at tick {}", tick);
+            spawns += 1;
+        }
+    }
+
+    println!("total spawns: {}", spawns);
+}

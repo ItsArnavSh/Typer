@@ -1,0 +1,27 @@
+
+class Box:
+    def __init__(self, name, x, y, w, h):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
+    def overlaps(self, other):
+        return not (
+            self.x + self.w < other.x or
+            self.x > other.x + other.w or
+            self.y + self.h < other.y or
+            self.y > other.y + other.h
+        )
+
+player = Box("player", 10, 10, 5, 5)
+block = Box("block", 12, 12, 5, 5)
+
+for i in range(30):
+    player.x += 1
+    if player.overlaps(block):
+        print("collision on tick", i)
+        break
+    else:
+        print("tick", i, "no collision")

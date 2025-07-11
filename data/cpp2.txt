@@ -1,0 +1,28 @@
+
+#include <iostream>
+#include <string>
+
+struct Box {
+    std::string name;
+    int x, y, w, h;
+
+    bool overlaps(const Box& other) const {
+        return !(x + w < other.x || x > other.x + other.w ||
+                 y + h < other.y || y > other.y + other.h);
+    }
+};
+
+int main() {
+    Box player = {"player", 0, 5, 3, 3};
+    Box wall = {"wall", 20, 5, 5, 5};
+
+    for (int i = 0; i < 30; ++i) {
+        player.x += 1;
+        if (player.overlaps(wall)) {
+            std::cout << "collision at tick " << i << "\n";
+            break;
+        }
+    }
+
+    return 0;
+}

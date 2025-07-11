@@ -1,0 +1,41 @@
+
+class Body {
+  name: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  gravity: number;
+
+  constructor(name: string, x: number, y: number, vx: number, vy: number) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.gravity = 0.5;
+  }
+
+  update(): void {
+    this.vy += this.gravity;
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.y > 100) {
+      this.y = 100;
+      this.vy *= -0.8;
+    }
+  }
+}
+
+const bodies: Body[] = [
+  new Body("hero", 0, 0, 2, -6),
+  new Body("crate", 10, 5, 0, 0)
+];
+
+for (let t = 0; t < 30; t++) {
+  for (const b of bodies) {
+    b.update();
+    console.log(b.name, b.x.toFixed(1), b.y.toFixed(1));
+  }
+}

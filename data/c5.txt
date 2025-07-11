@@ -1,0 +1,37 @@
+
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char name[32];
+    char objects[3][32];
+} Level;
+
+void describe(Level* lvl) {
+    printf("level: %s\n", lvl->name);
+    for (int i = 0; i < 3; i++) {
+        printf("- %s\n", lvl->objects[i]);
+    }
+}
+
+int main() {
+    Level levels[4];
+
+    strcpy(levels[0].name, "signal_zone");
+    strcpy(levels[1].name, "byte_field");
+    strcpy(levels[2].name, "init_core");
+    strcpy(levels[3].name, "osdc_final");
+
+    for (int i = 0; i < 4; i++) {
+        strcpy(levels[i].objects[0], "spawn");
+        strcpy(levels[i].objects[1], "exit");
+        strcpy(levels[i].objects[2], "enemy");
+    }
+
+    for (int i = 0; i < 4; i++) {
+        describe(&levels[i]);
+        printf("\n");
+    }
+
+    return 0;
+}

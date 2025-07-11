@@ -1,0 +1,53 @@
+
+struct Input {
+    left: bool,
+    right: bool,
+    jump: bool,
+}
+
+impl Input {
+    fn update(&mut self, tick: i32) {
+        self.left = tick % 3 == 0;
+        self.right = tick % 2 == 0;
+        self.jump = tick % 5 == 0;
+    }
+}
+
+struct Player {
+    x: i32,
+    y: i32,
+    jumping: bool,
+}
+
+impl Player {
+    fn update(&mut self, input: &Input) {
+        if input.left {
+            self.x -= 1;
+        }
+        if input.right {
+            self.x += 1;
+        }
+
+        if input.jump && !self.jumping {
+            self.jumping = true;
+            self.y += 5;
+        } else {
+            self.y -= 1;
+            if self.y <= 0 {
+                self.y = 0;
+                self.jumping = false;
+            }
+        }
+    }
+}
+
+fn main() {
+    let mut input = Input { left: false, right: false, jump: false };
+    let mut player = Player { x: 0, y: 0, jumping: false };
+
+    for tick in 0..30 {
+        input.update(tick);
+        player.update(&input);
+        println!("tick {} pos {} {}", tick, player.x, player.y);
+    }
+}

@@ -1,0 +1,49 @@
+
+#include <stdio.h>
+
+typedef struct {
+    int left;
+    int right;
+    int jump;
+} Input;
+
+typedef struct {
+    int x;
+    int y;
+    int jumping;
+} Player;
+
+void update_input(Input* in, int tick) {
+    in->left = tick % 3 == 0;
+    in->right = tick % 2 == 0;
+    in->jump = tick % 5 == 0;
+}
+
+void update_player(Player* p, Input* in) {
+    if (in->left) p->x -= 1;
+    if (in->right) p->x += 1;
+
+    if (in->jump && !p->jumping) {
+        p->jumping = 1;
+        p->y += 5;
+    } else {
+        p->y -= 1;
+        if (p->y <= 0) {
+            p->y = 0;
+            p->jumping = 0;
+        }
+    }
+}
+
+int main() {
+    Input input = {0};
+    Player player = {0};
+
+    for (int t = 0; t < 30; t++) {
+        update_input(&input, t);
+        update_player(&player, &input);
+        printf("tick %d pos %d %d\n", t, player.x, player.y);
+    }
+
+    return 0;
+}

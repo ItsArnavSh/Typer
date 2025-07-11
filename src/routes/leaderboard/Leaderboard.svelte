@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { auth, db } from '$lib/firebase';
 	import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
+	import { Timestamp } from 'firebase/firestore/lite';
 
 	interface LeaderboardUser {
 		id: string;
@@ -9,6 +10,7 @@
 		score: number; // WPM
 		attempts: number;
 		rank: number;
+		lastUpdated: Timestamp;
 	}
 
 	let leaderboardData: LeaderboardUser[] = [];
@@ -49,11 +51,15 @@
 					username: data.username || data.email || 'Anonymous',
 					score: data.score || 0,
 					attempts: data.attempts || 0,
-					rank: rank
+					rank: rank,
+					lastUpdated: data.lastUpdated || null
 				};
-
-				allUsers.push(userData);
-
+				if (
+					userData.lastUpdated &&
+					Timestamp.now().seconds - userData.lastUpdated.seconds <= 3600
+				) {
+					allUsers.push(userData);
+				}
 				// Check if this is the current user
 				if (auth.currentUser && doc.id === auth.currentUser.uid) {
 					currentUserData = userData;
@@ -79,14 +85,14 @@
 	<!-- Terminal Header with Back Button -->
 	<div class="terminal-text mb-6">
 		<div class="prompt mb-2">
-			<span class="text-green-400">C:\GAMES\TYPING&gt;</span>
+			<span class="text-green-400">user@OSDType:~$</span>
 			<a href="/" class="ml-2 text-green-400 underline transition-colors hover:text-lime-400"
-				>CD ..</a
+				>cd ..</a
 			>
 		</div>
 		<div class="prompt mb-4">
-			<span class="text-green-400">C:\GAMES\TYPING&gt;</span>
-			<span class="ml-2">TYPE LEADERBOARD.TXT</span>
+			<span class="text-green-400">user@OSDType:~$</span>
+			<span class="ml-2">cat leaderboard.txt</span>
 		</div>
 	</div>
 
@@ -129,7 +135,7 @@
 				</div>
 
 				<!-- Leaderboard Entries -->
-				{#each leaderboardData as user, index}
+				{#each leaderboardData.slice(0, 8) as user, index}
 					<div
 						class="mb-1 px-2 py-1 transition-all duration-150 hover:bg-blue-900 {index % 2 === 0
 							? 'bg-gray-900'
@@ -145,7 +151,9 @@
 							<span class="inline-block w-12">▓ {user.rank}</span>
 						{/if}
 						<span class="inline-block w-48 truncate text-green-300">{user.username}</span>
-						<span class="inline-block w-24 font-bold text-white">{Math.round(user.score)} WPM</span>
+						<span class="inline-block w-24 font-bold text-white"
+							>{Math.round(user.lastUpdated)} WPM</span
+						>
 						<span class="inline-block w-24 text-gray-400">{user.attempts}</span>
 					</div>
 				{/each}
@@ -153,51 +161,16 @@
 				<div class="mt-4 mb-4 text-lime-400">▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</div>
 			</div>
 
-			<!-- Current User Rank -->
-			{#if currentUserRank}
-				<div class="response mb-4">
-					<div class="mb-2 py-1 font-bold text-cyan-400">YOUR CURRENT STATUS:</div>
-					{#if currentUserRank.rank <= 10}
-						<div class="border border-yellow-400 bg-blue-900 py-2 font-bold text-yellow-300">
-							▲▲▲ CONGRATULATIONS! TOP 10 PLAYER! ▲▲▲
-							<br />RANK: #{currentUserRank.rank}
-						</div>
-					{:else}
-						<div class="border-2 border-green-400 bg-gray-800 p-3">
-							<span class="inline-block w-8 text-yellow-400">#{currentUserRank.rank}</span>
-							<span class="inline-block w-32 truncate font-bold text-yellow-400">
-								{currentUserRank.username} &lt;YOU&gt;
-							</span>
-							<span class="inline-block w-16 font-bold text-white">{currentUserRank.score}</span>
-							<span class="inline-block w-16 text-gray-400">{currentUserRank.attempts}</span>
-						</div>
-					{/if}
-				</div>
-			{/if}
-
 			<div class="mt-6 text-left">
 				<!-- Commands -->
 				<div class="prompt mb-2">
-					<span class="text-green-400">C:\GAMES\TYPING&gt;</span>
+					<span class="text-green-400">user@OSDType:~$</span>
 					<button
 						class="ml-2 text-green-400 underline transition-colors hover:text-lime-400"
 						on:click={fetchLeaderboard}
 					>
 						REFRESH
 					</button>
-				</div>
-
-				<div class="prompt mb-2">
-					<span class="text-green-400">C:\GAMES\TYPING&gt;</span>
-					<a href="/" class="ml-2 text-green-400 underline transition-colors hover:text-lime-400"
-						>CD ..\GAME</a
-					>
-				</div>
-
-				<div class="prompt">
-					<span class="text-green-400">C:\GAMES\TYPING&gt;</span>
-					<span class="ml-2">_</span>
-					{#if showCursor}<span class="cursor"></span>{/if}
 				</div>
 			</div>
 		</div>

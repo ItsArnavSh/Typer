@@ -1,0 +1,37 @@
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct Body {
+    std::string name;
+    float x, y;
+    float vx, vy;
+    float gravity = 0.5f;
+
+    void update() {
+        vy += gravity;
+        x += vx;
+        y += vy;
+        if (y > 100) {
+            y = 100;
+            vy *= -0.8f;
+        }
+    }
+};
+
+int main() {
+    std::vector<Body> bodies = {
+        {"player", 0, 0, 2, -6},
+        {"box", 10, 10, 0, 0}
+    };
+
+    for (int t = 0; t < 30; ++t) {
+        for (auto& b : bodies) {
+            b.update();
+            std::cout << b.name << " " << b.x << " " << b.y << "\n";
+        }
+    }
+
+    return 0;
+}

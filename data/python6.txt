@@ -1,0 +1,27 @@
+
+class Level:
+    def __init__(self, name):
+        self.name = name
+        self.entities = []
+
+    def add(self, thing):
+        self.entities.append(thing)
+
+    def describe(self):
+        print("level:", self.name)
+        for e in self.entities:
+            print("-", e)
+
+levels = []
+names = ["byte city", "signal hill", "core crash", "osdc arena"]
+
+for name in names:
+    level = Level(name)
+    level.add("spawn point")
+    level.add("exit portal")
+    level.add("enemy bot")
+    levels.append(level)
+
+for lvl in levels:
+    lvl.describe()
+    print()

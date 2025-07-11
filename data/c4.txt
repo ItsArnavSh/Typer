@@ -1,0 +1,31 @@
+
+#include <stdio.h>
+
+typedef struct {
+    int wait;
+    int counter;
+} Timer;
+
+int tick(Timer* timer) {
+    timer->counter++;
+    if (timer->counter >= timer->wait) {
+        timer->counter = 0;
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    Timer timer = {6, 0};
+    int spawns = 0;
+
+    for (int i = 0; i < 30; i++) {
+        if (tick(&timer)) {
+            printf("spawned at %d\n", i);
+            spawns++;
+        }
+    }
+
+    printf("total spawns: %d\n", spawns);
+    return 0;
+}

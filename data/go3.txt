@@ -1,0 +1,49 @@
+
+package main
+
+import "fmt"
+
+type Input struct {
+	left, right, jump bool
+}
+
+type Player struct {
+	x, y     int
+	jumping  bool
+}
+
+func updateInput(input *Input, tick int) {
+	input.left = tick%3 == 0
+	input.right = tick%2 == 0
+	input.jump = tick%5 == 0
+}
+
+func updatePlayer(p *Player, input Input) {
+	if input.left {
+		p.x--
+	}
+	if input.right {
+		p.x++
+	}
+	if input.jump && !p.jumping {
+		p.jumping = true
+		p.y += 5
+	} else {
+		p.y--
+		if p.y <= 0 {
+			p.y = 0
+			p.jumping = false
+		}
+	}
+}
+
+func main() {
+	input := Input{}
+	player := Player{}
+
+	for t := 0; t < 30; t++ {
+		updateInput(&input, t)
+		updatePlayer(&player, input)
+		fmt.Println("tick", t, "pos", player.x, player.y)
+	}
+}

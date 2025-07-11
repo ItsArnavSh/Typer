@@ -1,0 +1,30 @@
+
+class Box {
+  constructor(name, x, y, w, h) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+
+  intersects(other) {
+    return !(
+      this.x + this.w < other.x ||
+      this.x > other.x + other.w ||
+      this.y + this.h < other.y ||
+      this.y > other.y + other.h
+    );
+  }
+}
+
+const player = new Box("player", 5, 5, 3, 3);
+const block = new Box("block", 10, 5, 4, 4);
+
+for (let i = 0; i < 30; i++) {
+  player.x += 1;
+  if (player.intersects(block)) {
+    console.log("collision at", i);
+    break;
+  }
+}

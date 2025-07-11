@@ -1,0 +1,23 @@
+
+class Timer:
+    def __init__(self, wait):
+        self.wait = wait
+        self.counter = 0
+
+    def tick(self):
+        self.counter += 1
+        return self.counter >= self.wait
+
+    def reset(self):
+        self.counter = 0
+
+spawn_timer = Timer(7)
+ticks = 0
+spawns = 0
+
+while ticks < 30:
+    if spawn_timer.tick():
+        spawns += 1
+        print("enemy spawned at tick", ticks)
+        spawn_timer.reset()
+    ticks += 1

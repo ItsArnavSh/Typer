@@ -1,35 +1,60 @@
 const repoMap: Record<string, string[]> = {
 	typescript: [
-		'https://github.com/osdc/OSDHack-25/blob/main/src/components/Countdown.jsx',
-		'https://github.com/ItsArnavSh/gitfindr/blob/main/frontend/src/search.jsx'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/ts1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/ts2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/ts3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/ts4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/ts5.txt'
 	],
 	javascript: [
-		'https://github.com/osdc/OSDHack-25/blob/main/src/components/Countdown.jsx',
-		'https://github.com/ItsArnavSh/gitfindr/blob/main/frontend/src/search.jsx'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/js1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/js2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/js3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/js4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/js5.txt'
 	],
 	python: [
-		'https://github.com/ItsArnavSh/gitfindr/blob/main/backend/src/service/indexing/util/util.py',
-		'https://github.com/ItsArnavSh/gitfindr/blob/main/backend/src/service/indexing/semantic/embedding.py'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/python1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/python2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/python3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/python4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/python6.txt'
 	],
 	rust: [
-		'https://github.com/ItsArnavSh/Tyche/blob/main/tech_signal/src/services/scheduler/ubee.rs',
-		'https://github.com/ItsArnavSh/Tyche/blob/main/tech_signal/src/services/internal/cache/cache.rs'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/rs1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/rs2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/rs3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/rs4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/rs5.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/rust1.txt'
 	],
 	go: [
-		'https://github.com/golang/go/blob/master/src/fmt/print.go',
-		'https://github.com/golang/tools/blob/master/go/analysis/analysis.go'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/go1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/go2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/go3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/go4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/go5.txt'
 	],
 	c: [
-		'https://github.com/torvalds/linux/blob/master/kernel/sched/core.c',
-		'https://github.com/torvalds/linux/blob/master/mm/page_alloc.c'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/c1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/c2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/c3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/c4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/c5.txt'
 	],
 	cpp: [
-		'https://github.com/ItsArnavSh/shatranj/blob/main/checks.cpp',
-		'https://github.com/ItsArnavSh/shatranj/blob/main/moves.cpp'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/cpp1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/cpp2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/cpp3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/cpp4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/cpp5.txt'
 	],
 	java: [
-		'https://github.com/spring-projects/spring-framework/blob/main/spring-context/src/main/java/org/springframework/context/ApplicationContext.java',
-		'https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/StringUtils.java'
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/java1.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/java2.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/java3.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/java4.txt',
+		'https://github.com/ItsArnavSh/Typer/blob/main/data/java5.txt'
 	]
 };
 

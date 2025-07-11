@@ -8,10 +8,9 @@
 	const newEnter = '\u02BC'; // modifier apostrophe
 	const newTab = '\u03BC'; // Greek mu
 	let yetToStart = true;
-
 	let displayText = targetText
 		.replace(/ /g, newSpace)
-		.replace(/\n/g, newEnter)
+		.replace(/\n/g, newEnter) // Keep newlines as newEnter for display
 		.replace(/\t/g, newTab)
 		.split('');
 	function runAfter(callback: () => void) {
@@ -20,23 +19,17 @@
 	let wpm: number;
 	function updateScore() {
 		let minutes = competitionTime / 60;
-
 		// Raw WPM: every 5 characters is a word
 		let words =
 			userInput.replace(newSpace, '').replace(newEnter, '').replace(newTab, '').length / 5;
-
 		let rawWPM = words / minutes;
-
 		// Count correct and wrong characters
 		const correctCount = document.querySelectorAll('.correct').length;
 		const wrongCount = document.querySelectorAll('.error').length;
-
 		console.log('Correct:', correctCount, 'Wrong:', wrongCount);
-
 		// Accuracy-based scoring (optional)
 		const totalTyped = correctCount + wrongCount;
 		const accuracy = totalTyped > 0 ? correctCount / totalTyped : 0;
-
 		// Penalized score (score is scaled down from raw WPM based on accuracy)
 		const score = Math.max(rawWPM * accuracy, 0); // Or rawWPM - penalty if you prefer
 		wpm = score;
@@ -50,20 +43,19 @@
 			wrongCount
 		});
 	}
-
 	let userInput = '';
 	let userInpArray: string[] = [];
-	let forbiddenArr = allowSpace ? [newEnter, newTab] : [newSpace, newEnter, newTab];
-
+	let forbiddenArr = allowSpace ? [newEnter, newTab] : [newSpace, newEnter, newTab]; // Keep newEnter in forbidden since it's auto-added
 	function updateData() {
 		if (yetToStart) {
 			runAfter(updateScore);
 			dispatch('activateTimer', null);
 			yetToStart = false;
 		}
-
+		// Convert spaces and user-entered newlines to the space character
 		userInput = userInput.replaceAll(' ', allowSpace ? newSpace : '');
-		//userInpArray = userInput.split('');
+		userInput = userInput.replaceAll('\n', allowSpace ? newSpace : ''); // Convert user enters to spaces
+
 		if (
 			displayText[userInput.length - 1] == newSpace &&
 			userInput[userInput.length - 1] != newSpace &&
@@ -74,14 +66,11 @@
 			// Add the correct characters (space + next character)
 			userInput += displayText[userInput.length] + displayText[userInput.length + 1];
 		}
-
 		while (forbiddenArr.includes(displayText[userInput.length])) {
-			//userInpArray.push(displayText[userInput.length]);
 			userInput += displayText[userInput.length];
 		}
 		userInpArray = userInput.split('');
 	}
-
 	let blank = ' ';
 	let inputRef: HTMLInputElement;
 	function focusInput() {
@@ -90,7 +79,7 @@
 	function findAllOccurrences(str: string, char: string) {
 		return [...str].map((c, i) => (c === char ? i : -1)).filter((i) => i !== -1);
 	}
-
+	// Keep original enter tracking since we still have newlines in target text
 	let enters = findAllOccurrences(targetText, '\n');
 	enters = [0, ...enters];
 	// Get the index in `enters` of the next \n after userInput.length
@@ -107,11 +96,9 @@
 			letHigher = displayText.length;
 		} else {
 			const currentEnterIndex = nextEnterIndex(userInput.length);
-
 			// Clamp so we don't go negative
 			const lowerEnterIndex = Math.max(currentEnterIndex - 3, 0);
 			const higherEnterIndex = Math.min(currentEnterIndex + 10, enters.length - 1);
-
 			// Now these are positions (in the actual string):
 			letLower = enters[lowerEnterIndex];
 			letHigher = enters[higherEnterIndex];

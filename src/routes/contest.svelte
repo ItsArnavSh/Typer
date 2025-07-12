@@ -42,12 +42,7 @@
 
 		times = true;
 
-		await updateUserScore(wpmData.wpm, {
-			wpm: wpmData.wpm,
-			accuracy: (wpmData.correctCount * 100) / wpmData.wrongCount,
-			duration: competitionTime,
-			gameMode: selectedLanguage
-		});
+		await updateUserScore(wpmData.wpm);
 	}
 
 	function resetGame() {

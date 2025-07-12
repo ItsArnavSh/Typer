@@ -32,7 +32,7 @@
 		const totalTyped = correctCount + wrongCount;
 		const accuracy = totalTyped > 0 ? correctCount / totalTyped : 0;
 		// Penalized score (score is scaled down from raw WPM based on accuracy)
-		const score = Math.max(rawWPM * accuracy, 0); // Or rawWPM - penalty if you prefer
+		const score = Math.max(rawWPM * accuracy, 0);
 		wpm = score;
 		let total = totalTyped;
 		console.log(correctCount, ' ', wrongCount);

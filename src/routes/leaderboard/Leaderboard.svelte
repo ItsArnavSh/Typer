@@ -56,7 +56,7 @@
 				};
 				if (
 					userData.lastUpdated &&
-					Timestamp.now().seconds - userData.lastUpdated.seconds <= 3600
+					Timestamp.now().seconds - userData.lastUpdated.seconds <= 5000
 				) {
 					allUsers.push(userData);
 				}
@@ -151,9 +151,7 @@
 							<span class="inline-block w-12">▓ {user.rank}</span>
 						{/if}
 						<span class="inline-block w-48 truncate text-green-300">{user.username}</span>
-						<span class="inline-block w-24 font-bold text-white"
-							>{Math.round(user.lastUpdated)} WPM</span
-						>
+						<span class="inline-block w-24 font-bold text-white">{Math.round(user.score)} WPM</span>
 						<span class="inline-block w-24 text-gray-400">{user.attempts}</span>
 					</div>
 				{/each}

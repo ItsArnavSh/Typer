@@ -5,7 +5,7 @@ struct Body {
     vx: f32,
     vy: f32,
     gravity: f32,
-}
+ }
 impl Body {
     fn update(&mut self) {
         self.vy += self.gravity;

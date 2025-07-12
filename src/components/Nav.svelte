@@ -2,7 +2,7 @@
 	let menuOpen = false;
 	import { onDestroy } from 'svelte';
 	const links = [
-		{ href: '/', label: 'Play', permissions: 'drwxr-xr-x', size: '4096', date: 'Jun 25 12:11' },
+		{ href: '/', label: 'play', permissions: 'drwxr-xr-x', size: '4096', date: 'Jun 25 12:11' },
 		{
 			href: '/leaderboard',
 			label: 'leaderboard',
@@ -18,8 +18,8 @@
 			date: 'Jun 25 12:09'
 		},
 		{
-			href: '/osdhack',
-			label: 'OSDHack',
+			href: 'https://hack.osdc.dev/',
+			label: "OSDHack'25",
 			permissions: 'drwxr-xr-x',
 			size: '8192',
 			date: 'Jun 25 12:08'

@@ -157,7 +157,7 @@
 			{/if}
 		{/each}
 	</p>
-	<input
+	<textarea
 		class="pointer-events-none absolute z-5 w-full bg-none opacity-0"
 		type="text"
 		oninput={() => {

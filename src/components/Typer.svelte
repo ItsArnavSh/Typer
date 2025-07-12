@@ -174,5 +174,9 @@
 		bind:value={userInput}
 		bind:this={inputRef}
 		autocomplete="off"
+		onpaste={(e) => {
+			e.preventDefault();
+			return false;
+		}}
 	/>
 </div>

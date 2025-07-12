@@ -1,4 +1,12 @@
-import { doc, updateDoc, getDoc, increment, serverTimestamp } from 'firebase/firestore';
+import {
+	doc,
+	updateDoc,
+	getDoc,
+	getDocs,
+	collection,
+	increment,
+	serverTimestamp
+} from 'firebase/firestore';
 import { auth, db } from '$lib/firebase';
 
 /**
@@ -6,6 +14,24 @@ import { auth, db } from '$lib/firebase';
  * Only updates if the new score is higher than the current highest score
  * @param newScore - The new score to potentially set as highest
  */
+export async function resetAllScores(): Promise<void> {
+	try {
+		const usersSnapshot = await getDocs(collection(db, 'users'));
+
+		const resetPromises = usersSnapshot.docs.map((userDoc) => {
+			const userRef = doc(db, 'users', userDoc.id);
+			return updateDoc(userRef, {
+				score: 0,
+				attempts: 0
+			});
+		});
+
+		await Promise.all(resetPromises);
+		console.log('✅ All user scores and attempts reset to 0.');
+	} catch (error) {
+		console.error('❌ Error resetting user scores and attempts:', error);
+	}
+}
 export async function updateUserScore(newScore: number): Promise<boolean> {
 	try {
 		const user = auth.currentUser;

@@ -194,7 +194,7 @@
 				{/if}
 
 				<div class="response">System ready. Please enter credentials:</div>
-				<div class="response">[Use TAB and Sift+TAB to Navigate]</div>
+				<div class="response">[Use TAB and Shift+TAB to Navigate]</div>
 
 				<form on:submit|preventDefault={handleSubmit} class="mt-4 space-y-3">
 					{#if isSignup}

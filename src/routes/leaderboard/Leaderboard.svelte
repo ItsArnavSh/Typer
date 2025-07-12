@@ -3,7 +3,6 @@
 	import { auth, db } from '$lib/firebase';
 	import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
 	import { Timestamp } from 'firebase/firestore/lite';
-
 	interface LeaderboardUser {
 		id: string;
 		username: string;
@@ -37,7 +36,7 @@
 
 			// Fetch all users ordered by score (WPM) in descending order
 			const usersRef = collection(db, 'users');
-			const q = query(usersRef, orderBy('score', 'desc'));
+			const q = query(usersRef, orderBy('score', 'desc'), orderBy('attempts', 'asc'));
 			const querySnapshot = await getDocs(q);
 
 			const allUsers: LeaderboardUser[] = [];
@@ -56,7 +55,7 @@
 				};
 				if (
 					userData.lastUpdated &&
-					Timestamp.now().seconds - userData.lastUpdated.seconds <= 5000
+					Timestamp.now().seconds - userData.lastUpdated.seconds <= 200000
 				) {
 					allUsers.push(userData);
 				}
@@ -70,9 +69,9 @@
 
 			// Take top 10 for main leaderboard display
 			leaderboardData = allUsers.slice(0, 8);
-			for (let i = 1; i < 9; i++) {
-				leaderboardData[i - 1].rank = i;
-			}
+			leaderboardData.forEach((user, index) => {
+				user.rank = index + 1;
+			});
 			currentUserRank = currentUserData;
 
 			loading = false;

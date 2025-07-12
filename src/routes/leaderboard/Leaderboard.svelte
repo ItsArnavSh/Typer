@@ -69,7 +69,7 @@
 			});
 
 			// Take top 10 for main leaderboard display
-			leaderboardData = allUsers.slice(0, 10);
+			leaderboardData = allUsers.slice(0, 8);
 			currentUserRank = currentUserData;
 
 			loading = false;
@@ -135,7 +135,7 @@
 				</div>
 
 				<!-- Leaderboard Entries -->
-				{#each leaderboardData.slice(0, 8) as user, index}
+				{#each leaderboardData.slice(-8) as user, index}
 					<div
 						class="mb-1 px-2 py-1 transition-all duration-150 hover:bg-blue-900 {index % 2 === 0
 							? 'bg-gray-900'

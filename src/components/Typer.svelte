@@ -2,6 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	export let competitionTime: number;
 	export let targetText: string;
+	targetText = targetText.repeat(3);
 	let allowSpace = true;
 	const dispatch = createEventDispatcher();
 	const newSpace = '\u0131'; // dotless i

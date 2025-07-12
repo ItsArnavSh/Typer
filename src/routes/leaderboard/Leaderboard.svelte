@@ -70,6 +70,9 @@
 
 			// Take top 10 for main leaderboard display
 			leaderboardData = allUsers.slice(0, 8);
+			for (let i = 1; i < 9; i++) {
+				leaderboardData[i - 1].rank = i;
+			}
 			currentUserRank = currentUserData;
 
 			loading = false;

@@ -1,27 +1,27 @@
 #include <stdio.h>
 typedef struct {
-    char* name;
-    float x, y;
-    float vx, vy;
-    float gravity;
+char* name;
+float x, y;
+float vx, vy;
+float gravity;
 } Body;
 void update(Body* b) {
-    b->vy += b->gravity;
-    b->x += b->vx;
-    b->y += b->vy;
-    if (b->y > 100) {
-        b->y = 100;
-        b->vy *= -0.8f;
-    }
+b->vy += b->gravity;
+b->x += b->vx;
+b->y += b->vy;
+if (b->y > 100) {
+b->y = 100;
+b->vy *= -0.8f;
+}
 }
 int main() {
-    Body player = {"player", 0, 0, 2, -6, 0.5};
-    Body box = {"box", 10, 10, 0, 0, 0.5};
-    for (int t = 0; t < 30; t++) {
-        update(&player);
-        update(&box);
-        printf("%s %.1f %.1f\n", player.name, player.x, player.y);
-        printf("%s %.1f %.1f\n", box.name, box.x, box.y);
-    }
-    return 0;
+Body player = {"player", 0, 0, 2, -6, 0.5};
+Body box = {"box", 10, 10, 0, 0, 0.5};
+for (int t = 0; t < 30; t++) {
+update(&player);
+update(&box);
+printf("%s %.1f %.1f\n", player.name, player.x, player.y);
+printf("%s %.1f %.1f\n", box.name, box.x, box.y);
+}
+return 0;
 }

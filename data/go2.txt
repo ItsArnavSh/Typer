@@ -1,23 +1,23 @@
 package main
 import "fmt"
 type Box struct {
-	name     string
-	x, y, w, h int
+name     string
+x, y, w, h int
 }
 func Overlaps(a, b Box) bool {
-	return !(a.x+a.w < b.x ||
-		a.x > b.x+b.w ||
-		a.y+a.h < b.y ||
-		a.y > b.y+b.h)
+return !(a.x+a.w < b.x ||
+a.x > b.x+b.w ||
+a.y+a.h < b.y ||
+a.y > b.y+b.h)
 }
 func main() {
-	player := Box{"player", 0, 5, 3, 3}
-	wall := Box{"wall", 20, 5, 5, 5}
-	for i := 0; i < 30; i++ {
-		player.x++
-		if Overlaps(player, wall) {
-			fmt.Println("collision at tick", i)
-			break
-		}
-	}
+player := Box{"player", 0, 5, 3, 3}
+wall := Box{"wall", 20, 5, 5, 5}
+for i := 0; i < 30; i++ {
+player.x++
+if Overlaps(player, wall) {
+fmt.Println("collision at tick", i)
+break
+}
+}
 }

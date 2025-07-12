@@ -1,36 +1,36 @@
 class InputState {
-  left = false;
-  right = false;
-  jump = false;
-  update(tick: number): void {
-    this.left = tick % 3 === 0;
-    this.right = tick % 2 === 0;
-    this.jump = tick % 5 === 0;
-  }
+left = false;
+right = false;
+jump = false;
+update(tick: number): void {
+this.left = tick % 3 === 0;
+this.right = tick % 2 === 0;
+this.jump = tick % 5 === 0;
+}
 }
 class Player {
-  x = 0;
-  y = 0;
-  jumping = false;
-  update(input: InputState): void {
-    if (input.left) this.x -= 1;
-    if (input.right) this.x += 1;
-    if (input.jump && !this.jumping) {
-      this.jumping = true;
-      this.y += 5;
-    } else {
-      this.y -= 1;
-      if (this.y <= 0) {
-        this.y = 0;
-        this.jumping = false;
-      }
-    }
-  }
+x = 0;
+y = 0;
+jumping = false;
+update(input: InputState): void {
+if (input.left) this.x -= 1;
+if (input.right) this.x += 1;
+if (input.jump && !this.jumping) {
+this.jumping = true;
+this.y += 5;
+} else {
+this.y -= 1;
+if (this.y <= 0) {
+this.y = 0;
+this.jumping = false;
+}
+}
+}
 }
 const input = new InputState();
 const player = new Player();
 for (let i = 0; i < 30; i++) {
-  input.update(i);
-  player.update(input);
-  console.log("tick", i, player.x, player.y);
+input.update(i);
+player.update(input);
+console.log("tick", i, player.x, player.y);
 }

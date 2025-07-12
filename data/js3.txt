@@ -1,40 +1,40 @@
 class Input {
-  constructor() {
-    this.left = false;
-    this.right = false;
-    this.jump = false;
-  }
-  tick(t) {
-    this.left = t % 3 === 0;
-    this.right = t % 2 === 0;
-    this.jump = t % 5 === 0;
-  }
+constructor() {
+this.left = false;
+this.right = false;
+this.jump = false;
+}
+tick(t) {
+this.left = t % 3 === 0;
+this.right = t % 2 === 0;
+this.jump = t % 5 === 0;
+}
 }
 class Player {
-  constructor() {
-    this.x = 0;
-    this.y = 0;
-    this.jumping = false;
-  }
-  update(input) {
-    if (input.left) this.x -= 1;
-    if (input.right) this.x += 1;
-    if (input.jump && !this.jumping) {
-      this.jumping = true;
-      this.y += 5;
-    } else {
-      this.y -= 1;
-      if (this.y <= 0) {
-        this.y = 0;
-        this.jumping = false;
-      }
-    }
-  }
+constructor() {
+this.x = 0;
+this.y = 0;
+this.jumping = false;
+}
+update(input) {
+if (input.left) this.x -= 1;
+if (input.right) this.x += 1;
+if (input.jump && !this.jumping) {
+this.jumping = true;
+this.y += 5;
+} else {
+this.y -= 1;
+if (this.y <= 0) {
+this.y = 0;
+this.jumping = false;
+}
+}
+}
 }
 const input = new Input();
 const player = new Player();
 for (let i = 0; i < 30; i++) {
-  input.tick(i);
-  player.update(input);
-  console.log("tick", i, "pos", player.x, player.y);
+input.tick(i);
+player.update(input);
+console.log("tick", i, "pos", player.x, player.y);
 }

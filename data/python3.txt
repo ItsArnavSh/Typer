@@ -1,33 +1,33 @@
 class Input:
-    def __init__(self):
-        self.left = False
-        self.right = False
-        self.jump = False
-    def tick(self, i):
-        self.left = i % 2 == 0
-        self.right = i % 3 == 0
-        self.jump = i % 5 == 0
+def __init__(self):
+self.left = False
+self.right = False
+self.jump = False
+def tick(self, i):
+self.left = i % 2 == 0
+self.right = i % 3 == 0
+self.jump = i % 5 == 0
 class Player:
-    def __init__(self):
-        self.x = 0
-        self.y = 0
-        self.jumping = False
-    def update(self, input):
-        if input.left:
-            self.x -= 1
-        if input.right:
-            self.x += 1
-        if input.jump and not self.jumping:
-            self.jumping = True
-            self.y += 5
-        else:
-            self.y -= 1
-            if self.y <= 0:
-                self.jumping = False
-                self.y = 0
+def __init__(self):
+self.x = 0
+self.y = 0
+self.jumping = False
+def update(self, input):
+if input.left:
+self.x -= 1
+if input.right:
+self.x += 1
+if input.jump and not self.jumping:
+self.jumping = True
+self.y += 5
+else:
+self.y -= 1
+if self.y <= 0:
+self.jumping = False
+self.y = 0
 input = Input()
 player = Player()
 for tick in range(30):
-    input.tick(tick)
-    player.update(input)
-    print("tick", tick, "pos", player.x, player.y)
+input.tick(tick)
+player.update(input)
+print("tick", tick, "pos", player.x, player.y)

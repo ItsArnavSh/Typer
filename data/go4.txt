@@ -1,25 +1,25 @@
 package main
 import "fmt"
 type Timer struct {
-	wait    int
-	counter int
+wait    int
+counter int
 }
 func (t *Timer) Tick() bool {
-	t.counter++
-	if t.counter >= t.wait {
-		t.counter = 0
-		return true
-	}
-	return false
+t.counter++
+if t.counter >= t.wait {
+t.counter = 0
+return true
+}
+return false
 }
 func main() {
-	timer := Timer{wait: 6}
-	spawns := 0
-	for i := 0; i < 30; i++ {
-		if timer.Tick() {
-			fmt.Println("spawned at tick", i)
-			spawns++
-		}
-	}
-	fmt.Println("total spawns:", spawns)
+timer := Timer{wait: 6}
+spawns := 0
+for i := 0; i < 30; i++ {
+if timer.Tick() {
+fmt.Println("spawned at tick", i)
+spawns++
+}
+}
+fmt.Println("total spawns:", spawns)
 }

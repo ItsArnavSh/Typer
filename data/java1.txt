@@ -1,34 +1,34 @@
 class Body {
-    String name;
-    float x, y;
-    float vx, vy;
-    float gravity = 0.5f;
-    Body(String name, float x, float y, float vx, float vy) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.vx = vx;
-        this.vy = vy;
-    }
-    void update() {
-        vy += gravity;
-        x += vx;
-        y += vy;
-        if (y > 100) {
-            y = 100;
-            vy *= -0.8f;
-        }
-    }
+String name;
+float x, y;
+float vx, vy;
+float gravity = 0.5f;
+Body(String name, float x, float y, float vx, float vy) {
+this.name = name;
+this.x = x;
+this.y = y;
+this.vx = vx;
+this.vy = vy;
+}
+void update() {
+vy += gravity;
+x += vx;
+y += vy;
+if (y > 100) {
+y = 100;
+vy *= -0.8f;
+}
+}
 }
 public class Physics {
-    public static void main(String[] args) {
-        Body player = new Body("player", 0, 0, 2, -6);
-        Body box = new Body("box", 10, 10, 0, 0);
-        for (int t = 0; t < 30; t++) {
-            player.update();
-            box.update();
-            System.out.printf("%s %.1f %.1f\n", player.name, player.x, player.y);
-            System.out.printf("%s %.1f %.1f\n", box.name, box.x, box.y);
-        }
-    }
+public static void main(String[] args) {
+Body player = new Body("player", 0, 0, 2, -6);
+Body box = new Body("box", 10, 10, 0, 0);
+for (int t = 0; t < 30; t++) {
+player.update();
+box.update();
+System.out.printf("%s %.1f %.1f\n", player.name, player.x, player.y);
+System.out.printf("%s %.1f %.1f\n", box.name, box.x, box.y);
+}
+}
 }

@@ -1,24 +1,24 @@
 class Timer {
-  wait: number;
-  counter: number;
-  constructor(wait: number) {
-    this.wait = wait;
-    this.counter = 0;
-  }
-  tick(): boolean {
-    this.counter++;
-    if (this.counter >= this.wait) {
-      this.counter = 0;
-      return true;
-    }
-    return false;
-  }
+wait: number;
+counter: number;
+constructor(wait: number) {
+this.wait = wait;
+this.counter = 0;
+}
+tick(): boolean {
+this.counter++;
+if (this.counter >= this.wait) {
+this.counter = 0;
+return true;
+}
+return false;
+}
 }
 const timer = new Timer(6);
 let spawns = 0;
 for (let i = 0; i < 30; i++) {
-  if (timer.tick()) {
-    spawns++;
-    console.log("enemy spawned at", i);
-  }
+if (timer.tick()) {
+spawns++;
+console.log("enemy spawned at", i);
+}
 }

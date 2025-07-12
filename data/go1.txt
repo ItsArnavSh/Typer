@@ -1,30 +1,30 @@
 package main
 import (
-	"fmt"
+"fmt"
 )
 type Body struct {
-	name    string
-	x, y    float64
-	vx, vy  float64
-	gravity float64
+name    string
+x, y    float64
+vx, vy  float64
+gravity float64
 }
 func (b *Body) Update() {
-	b.vy += b.gravity
-	b.x += b.vx
-	b.y += b.vy
-	if b.y > 100 {
-		b.y = 100
-		b.vy *= -0.8
-	}
+b.vy += b.gravity
+b.x += b.vx
+b.y += b.vy
+if b.y > 100 {
+b.y = 100
+b.vy *= -0.8
+}
 }
 func main() {
-	player := Body{"player", 0, 0, 2, -6, 0.5}
-	box := Body{"box", 10, 10, 0, 0, 0.5}
-	bodies := []Body{player, box}
-	for tick := 0; tick < 30; tick++ {
-		for i := range bodies {
-			bodies[i].Update()
-			fmt.Printf("%s %.1f %.1f\n", bodies[i].name, bodies[i].x, bodies[i].y)
-		}
-	}
+player := Body{"player", 0, 0, 2, -6, 0.5}
+box := Body{"box", 10, 10, 0, 0, 0.5}
+bodies := []Body{player, box}
+for tick := 0; tick < 30; tick++ {
+for i := range bodies {
+bodies[i].Update()
+fmt.Printf("%s %.1f %.1f\n", bodies[i].name, bodies[i].x, bodies[i].y)
+}
+}
 }

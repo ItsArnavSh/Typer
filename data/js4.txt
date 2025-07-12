@@ -1,23 +1,23 @@
 class Timer {
-  constructor(wait) {
-    this.wait = wait;
-    this.counter = 0;
-  }
-  tick() {
-    this.counter++;
-    if (this.counter >= this.wait) {
-      this.counter = 0;
-      return true;
-    }
-    return false;
-  }
+constructor(wait) {
+this.wait = wait;
+this.counter = 0;
+}
+tick() {
+this.counter++;
+if (this.counter >= this.wait) {
+this.counter = 0;
+return true;
+}
+return false;
+}
 }
 let timer = new Timer(6);
 let total = 0;
 for (let i = 0; i < 30; i++) {
-  if (timer.tick()) {
-    console.log("spawned at", i);
-    total++;
-  }
+if (timer.tick()) {
+console.log("spawned at", i);
+total++;
+}
 }
 console.log("total spawns:", total);

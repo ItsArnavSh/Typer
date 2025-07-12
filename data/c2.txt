@@ -1,24 +1,24 @@
 #include <stdio.h>
 typedef struct {
-    char* name;
-    int x, y, w, h;
+char* name;
+int x, y, w, h;
 } Box;
 int overlaps(Box a, Box b) {
-    if (a.x + a.w < b.x) return 0;
-    if (a.x > b.x + b.w) return 0;
-    if (a.y + a.h < b.y) return 0;
-    if (a.y > b.y + b.h) return 0;
-    return 1;
+if (a.x + a.w < b.x) return 0;
+if (a.x > b.x + b.w) return 0;
+if (a.y + a.h < b.y) return 0;
+if (a.y > b.y + b.h) return 0;
+return 1;
 }
 int main() {
-    Box player = {"player", 0, 5, 3, 3};
-    Box wall = {"wall", 20, 5, 5, 5};
-    for (int i = 0; i < 30; i++) {
-        player.x += 1;
-        if (overlaps(player, wall)) {
-            printf("collision at tick %d\n", i);
-            break;
-        }
-    }
-    return 0;
+Box player = {"player", 0, 5, 3, 3};
+Box wall = {"wall", 20, 5, 5, 5};
+for (int i = 0; i < 30; i++) {
+player.x += 1;
+if (overlaps(player, wall)) {
+printf("collision at tick %d\n", i);
+break;
+}
+}
+return 0;
 }

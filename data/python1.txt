@@ -1,25 +1,25 @@
 class Body:
-    def __init__(self, name, x, y, vx, vy):
-        self.name = name
-        self.x = x
-        self.y = y
-        self.vx = vx
-        self.vy = vy
-        self.gravity = 0.5
-    def update(self):
-        self.vy += self.gravity
-        self.x += self.vx
-        self.y += self.vy
-    def bounce(self, damp):
-        if self.y > 100:
-            self.y = 100
-            self.vy = -self.vy * damp
+def __init__(self, name, x, y, vx, vy):
+self.name = name
+self.x = x
+self.y = y
+self.vx = vx
+self.vy = vy
+self.gravity = 0.5
+def update(self):
+self.vy += self.gravity
+self.x += self.vx
+self.y += self.vy
+def bounce(self, damp):
+if self.y > 100:
+self.y = 100
+self.vy = -self.vy * damp
 bodies = []
 bodies.append(Body("hero", 0, 0, 2, -5))
 bodies.append(Body("crate", 10, 10, 0, 0))
 for tick in range(30):
-    print("tick", tick)
-    for b in bodies:
-        b.update()
-        b.bounce(0.8)
-        print(b.name, "=>", round(b.x, 1), round(b.y, 1))
+print("tick", tick)
+for b in bodies:
+b.update()
+b.bounce(0.8)
+print(b.name, "=>", round(b.x, 1), round(b.y, 1))
